@@ -1,5 +1,7 @@
 package br.sc.senac.librarySystem;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -44,5 +46,14 @@ public class LibraryController {
 			return LibraryController.toDTO(bookEntity.get());
 		}
 		return BookDTO.NUll_VALUE;
-	}	
+	}
+	
+	List<BookDTO> getAllBooks(){
+		List<BookDTO> selectedBooks = new ArrayList<>();
+		Iterable<BookEntity> selectedEntities = bookRepository.findAll();
+		for(BookEntity bookEntity : selectedEntities) {
+			selectedBooks.add(LibraryController.toDTO(bookEntity));
+		}
+		return selectedBooks;
+	}
 }
