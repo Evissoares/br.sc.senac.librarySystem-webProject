@@ -48,12 +48,22 @@ public class LibraryController {
 		return BookDTO.NUll_VALUE;
 	}
 	
-	List<BookDTO> getAllBooks(){
+	List<BookDTO> getAllBooksFromRepository(){
 		List<BookDTO> selectedBooks = new ArrayList<>();
 		Iterable<BookEntity> selectedEntities = bookRepository.findAll();
 		for(BookEntity bookEntity : selectedEntities) {
 			selectedBooks.add(LibraryController.toDTO(bookEntity));
 		}
 		return selectedBooks;
+	}
+	
+	BookDTO removeBookFromRepository(Long codeBook) {
+		Optional<BookEntity> selectedBookEntity = bookRepository.findById(codeBook);
+		if(selectedBookEntity.isPresent()) {
+			BookDTO removedBook = LibraryController.toDTO(selectedBookEntity.get());
+			bookRepository.delete(selectedBookEntity.get());
+			return removedBook;
+		}
+		return BookDTO.NUll_VALUE;
 	}
 }

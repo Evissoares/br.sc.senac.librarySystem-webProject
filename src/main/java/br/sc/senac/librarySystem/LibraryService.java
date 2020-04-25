@@ -37,6 +37,6 @@ public class LibraryService {
 	
 	@GetMapping("/showAllBooks")
 	List<BookDTO> showAllBooks() {
-		return this.libraryController.getAllBooks();
+		return this.libraryController.getAllBooksFromRepository();
 	}
 }
