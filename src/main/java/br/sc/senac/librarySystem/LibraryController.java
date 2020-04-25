@@ -13,11 +13,17 @@ public class LibraryController {
 		this.bookRepository = bookRepository;
 	}
 	
-	BookEntity toEntity(BookDTO book) {
+	private static BookEntity toEntity(BookDTO book) {
 		String titleBook = book.getTitleBook();
 		String authorBook = book.getAuthorBook();
 		String genreBook = book.getGenreBook();
 		String releaseDate = book.getReleaseDate();
 		return new BookEntity(titleBook, authorBook, genreBook, releaseDate);
+	}
+	
+	Long insertBookIntoRepository(BookDTO book) {
+		BookEntity bookEntity = LibraryController.toEntity(book);
+		bookRepository.save(bookEntity);
+		return bookEntity.getCodeBook();
 	}
 }
