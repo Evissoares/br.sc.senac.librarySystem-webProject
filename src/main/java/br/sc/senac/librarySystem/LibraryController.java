@@ -42,7 +42,7 @@ public class LibraryController {
 	
 	BookDTO getBookFromRepository(Long codeBook) {
 		Optional<BookEntity> bookEntity = bookRepository.findById(codeBook);
-		if(bookEntity.isPresent()) {
+		if (bookEntity.isPresent()) {
 			return LibraryController.toBookDTO(bookEntity.get());
 		}
 		return BookDTO.NUll_VALUE;
@@ -51,7 +51,7 @@ public class LibraryController {
 	List<BookDTO> getAllBooksFromRepository(){
 		List<BookDTO> selectedBooks = new ArrayList<>();
 		Iterable<BookEntity> selectedEntities = bookRepository.findAll();
-		for(BookEntity bookEntity : selectedEntities) {
+		for (BookEntity bookEntity : selectedEntities) {
 			selectedBooks.add(LibraryController.toBookDTO(bookEntity));
 		}
 		return selectedBooks;
@@ -59,7 +59,7 @@ public class LibraryController {
 	
 	BookDTO removeBookFromRepository(Long codeBook) {
 		Optional<BookEntity> selectedBookEntity = bookRepository.findById(codeBook);
-		if(selectedBookEntity.isPresent()) {
+		if (selectedBookEntity.isPresent()) {
 			BookDTO removedBook = LibraryController.toBookDTO(selectedBookEntity.get());
 			bookRepository.delete(selectedBookEntity.get());
 			return removedBook;
@@ -76,9 +76,9 @@ public class LibraryController {
 	
 	BookDTO updateBookInRepository(BookDTO updateBook, Long codeBook) {
 		Optional<BookEntity> selectedBook = bookRepository.findById(codeBook);
-		if(selectedBook.isPresent()) {
+		if (selectedBook.isPresent()) {
 			BookEntity bookForUpdate = selectedBook.get();
-			BookDTO oldBook = LibraryController.toBookDTO(bookForUpdate);
+			BookDTO oldBook = LibraryController.toBookDTO(selectedBook.get());
 			LibraryController.updateBookEntityFromDTO(bookForUpdate, updateBook);
 			bookRepository.save(bookForUpdate);
 			return oldBook;
@@ -98,4 +98,54 @@ public class LibraryController {
 		Integer readerAge = reader.getEntityReaderAge();
 		return new ReaderDTO(readerId, readerName, readerAge);
 	}
+	
+	Long insertReaderIntoRepository(ReaderDTO reader) {
+		ReaderEntity readerEntity = LibraryController.toReaderEntity(reader);
+		readerRepository.save(readerEntity);
+		return readerEntity.getReaderId();
+	}
+	
+	ReaderDTO getReaderFromRepository(Long readerId) {
+		Optional<ReaderEntity> selectedReaderEntity = readerRepository.findById(readerId);
+		if (selectedReaderEntity.isPresent()) {
+			return LibraryController.toReaderDTO(selectedReaderEntity.get());
+		}
+		return ReaderDTO.NULL_VALUE;
+	}
+	
+	List<ReaderDTO> getAllReadersFromRepository() {
+		List<ReaderDTO> selectedReaders = new ArrayList<>();
+		Iterable<ReaderEntity> selectedEntities = readerRepository.findAll();
+		for (ReaderEntity readerEntity : selectedEntities) {
+			selectedReaders.add(LibraryController.toReaderDTO(readerEntity));
+		}
+		return selectedReaders;
+	}
+	
+    ReaderDTO removeReaderFromRepository(Long readerId) {
+    	Optional<ReaderEntity> selectedReaderEntity = readerRepository.findById(readerId);
+    	if (selectedReaderEntity.isPresent()) {
+    		ReaderDTO removedReader = LibraryController.toReaderDTO(selectedReaderEntity.get());
+    		readerRepository.delete(selectedReaderEntity.get());
+    		return removedReader;
+    	}
+    	return ReaderDTO.NULL_VALUE;
+    }
+	
+    private static void updateReaderEntityFromDTO(ReaderEntity oldReader, ReaderDTO newReader) {
+    	oldReader.setEntityReaderName(newReader.getReaderName());
+    	oldReader.setEntityReaderAge(newReader.getReaderAge());
+    }
+    
+    ReaderDTO updateReaderInRepository(ReaderDTO updateReader, Long readerId) {
+    	Optional<ReaderEntity> selectedReader = readerRepository.findById(readerId);
+    	if (selectedReader.isPresent()) {
+    		ReaderEntity readerForUpdate = selectedReader.get();
+    		ReaderDTO oldReader = LibraryController.toReaderDTO(selectedReader.get());
+    		LibraryController.updateReaderEntityFromDTO(readerForUpdate, updateReader);
+    		readerRepository.save(readerForUpdate);
+    		return oldReader;
+    	}
+    	return ReaderDTO.NULL_VALUE;
+    }
 }

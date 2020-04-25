@@ -2,7 +2,6 @@ package br.sc.senac.librarySystem;
 
 import java.util.List;
 
-import javax.xml.ws.Response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,5 +59,42 @@ public class LibraryService {
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
 		return new ResponseEntity<BookDTO>(updatedBook, HttpStatus.OK);
+	}
+	
+	@PostMapping("/insertReader")
+	Long insertReader(@RequestBody ReaderDTO reader) {
+		return this.libraryController.insertReaderIntoRepository(reader);
+	}
+	
+	@GetMapping("/showReader/{readerId}")
+	ResponseEntity<ReaderDTO> showReader(@PathVariable Long readerId) {
+		ReaderDTO selectedReader = this.libraryController.getReaderFromRepository(readerId);
+		if(selectedReader.equals(ReaderDTO.NULL_VALUE)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<ReaderDTO>(selectedReader, HttpStatus.OK);
+	}
+	
+	@GetMapping("/showAllReaders")
+	List<ReaderDTO> showAllReaders() {
+		return this.libraryController.getAllReadersFromRepository();
+	}
+	
+	@DeleteMapping("/deleteReader/{readerId}")
+	ResponseEntity<ReaderDTO> deleteReader(@PathVariable Long readerId) {
+		ReaderDTO selectedReader = this.libraryController.removeReaderFromRepository(readerId);
+		if(selectedReader.equals(ReaderDTO.NULL_VALUE)) {
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+		}
+		return new ResponseEntity<ReaderDTO>(selectedReader, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateReader/{readerId}")
+	ResponseEntity<ReaderDTO> updateBook(@RequestBody ReaderDTO updateReader, @PathVariable Long readerId) {
+		ReaderDTO updatedReader = this.libraryController.updateReaderInRepository(updateReader, readerId);
+		if(updatedReader.equals(ReaderDTO.NULL_VALUE)) {
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+		}
+		return new ResponseEntity<ReaderDTO>(updatedReader, HttpStatus.OK);
 	}
 }
