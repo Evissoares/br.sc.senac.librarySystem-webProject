@@ -2,12 +2,15 @@ package br.sc.senac.librarySystem;
 
 import java.util.List;
 
+import javax.xml.ws.Response;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,8 +48,17 @@ public class LibraryService {
 	ResponseEntity<BookDTO> deleteBook(@PathVariable Long codeBook) {
 		BookDTO selectedToRemove = this.libraryController.removeBookFromRepository(codeBook);
 		if(selectedToRemove.equals(BookDTO.NUll_VALUE)) {
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+		}
+		return new ResponseEntity<BookDTO>(selectedToRemove, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateBook/{codeBook}")
+	ResponseEntity<BookDTO> updateBook(@RequestBody BookDTO updateBook, @PathVariable Long codeBook) {
+		BookDTO updatedBook = this.libraryController.updateBookInRepository(updateBook, codeBook);
+		if(updatedBook.equals(BookDTO.NUll_VALUE)) {
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
-		return new ResponseEntity<BookDTO>(HttpStatus.OK);
+		return new ResponseEntity<BookDTO>(updatedBook, HttpStatus.OK);
 	}
 }

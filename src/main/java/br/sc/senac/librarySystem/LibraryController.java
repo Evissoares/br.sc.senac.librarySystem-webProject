@@ -66,4 +66,23 @@ public class LibraryController {
 		}
 		return BookDTO.NUll_VALUE;
 	}
+	
+	private static void updateBookEntityFromDTO(BookEntity oldBook, BookDTO newBook) {
+		oldBook.setTitleBook(newBook.getTitleBook());
+		oldBook.setAuthorBook(newBook.getAuthorBook());
+		oldBook.setGenreBook(newBook.getGenreBook());
+		oldBook.setReleaseDate(newBook.getReleaseDate());
+	}
+	
+	BookDTO updateBookInRepository(BookDTO updateBook, Long codeBook) {
+		Optional<BookEntity> selectedBook = bookRepository.findById(codeBook);
+		if(selectedBook.isPresent()) {
+			BookEntity bookForUpdate = selectedBook.get();
+			BookDTO oldBook = LibraryController.toDTO(bookForUpdate);
+			LibraryController.updateBookEntityFromDTO(bookForUpdate, updateBook);
+			bookRepository.save(bookForUpdate);
+			return oldBook;
+		}
+		return BookDTO.NUll_VALUE;
+	}
 }
