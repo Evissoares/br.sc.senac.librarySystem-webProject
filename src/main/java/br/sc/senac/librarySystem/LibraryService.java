@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,5 +39,14 @@ public class LibraryService {
 	@GetMapping("/showAllBooks")
 	List<BookDTO> showAllBooks() {
 		return this.libraryController.getAllBooksFromRepository();
+	}
+	
+	@DeleteMapping("/deleteBook/{codeBook}")
+	ResponseEntity<BookDTO> deleteBook(@PathVariable Long codeBook) {
+		BookDTO selectedToRemove = this.libraryController.removeBookFromRepository(codeBook);
+		if(selectedToRemove.equals(BookDTO.NUll_VALUE)) {
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+		}
+		return new ResponseEntity<BookDTO>(HttpStatus.OK);
 	}
 }
