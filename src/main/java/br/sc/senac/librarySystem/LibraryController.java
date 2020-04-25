@@ -12,4 +12,12 @@ public class LibraryController {
 		this.readerRepository = readerRepository;
 		this.bookRepository = bookRepository;
 	}
+	
+	BookEntity toEntity(BookDTO book) {
+		String titleBook = book.getTitleBook();
+		String authorBook = book.getAuthorBook();
+		String genreBook = book.getGenreBook();
+		String releaseDate = book.getReleaseDate();
+		return new BookEntity(titleBook, authorBook, genreBook, releaseDate);
+	}
 }
