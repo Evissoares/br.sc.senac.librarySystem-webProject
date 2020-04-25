@@ -6,7 +6,7 @@ public class ReaderDTO {
 	private String readerName;
 	private Integer readerAge;
 	
-	ReaderDTO(String readerName, Integer readerAge){
+	ReaderDTO(String readerName, Integer readerAge) {
 		this.readerName = readerName;
 		this.readerAge = readerAge;
 	}
