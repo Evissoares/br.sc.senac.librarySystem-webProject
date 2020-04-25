@@ -1,5 +1,9 @@
 package br.sc.senac.librarySystem;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,5 +22,14 @@ public class LibraryService {
 	@PostMapping("/insertBook")
 	Long insertBook(@RequestBody BookDTO book) {
 		return this.libraryController.insertBookIntoRepository(book);
+	}
+	
+	@GetMapping("/showBook/{codeBook}")
+	ResponseEntity<BookDTO> showBook(@PathVariable Long codeBook) {
+		BookDTO selectedBook = this.libraryController.getBookFromRepository(codeBook);
+		if(selectedBook.equals(BookDTO.NUll_VALUE)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<BookDTO>(selectedBook, HttpStatus.OK);
 	}
 }

@@ -24,11 +24,12 @@ public class LibraryController {
 	}
 	
 	private static BookDTO toDTO(BookEntity bookEntity) {
+		Long codeBook = bookEntity.getCodeBook();
 		String titleBook = bookEntity.getTitleBook();
 		String authorBook = bookEntity.getAuthorBook();
 		String genreBook = bookEntity.getGenreBook();
 		String releaseDate = bookEntity.getReleaseDate();
-		return new BookDTO(titleBook, authorBook, genreBook, releaseDate);
+		return new BookDTO(codeBook, titleBook, authorBook, genreBook, releaseDate);
 	}
 	
 	Long insertBookIntoRepository(BookDTO book) {
@@ -37,12 +38,11 @@ public class LibraryController {
 		return bookEntity.getCodeBook();
 	}
 	
-	BookDTO getBook(Long codeBook) {
+	BookDTO getBookFromRepository(Long codeBook) {
 		Optional<BookEntity> bookEntity = bookRepository.findById(codeBook);
 		if(bookEntity.isPresent()) {
 			return LibraryController.toDTO(bookEntity.get());
 		}
 		return BookDTO.NUll_VALUE;
-	}
-	
+	}	
 }
