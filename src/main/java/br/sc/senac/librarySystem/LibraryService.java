@@ -1,5 +1,7 @@
 package br.sc.senac.librarySystem;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,5 +33,10 @@ public class LibraryService {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<BookDTO>(selectedBook, HttpStatus.OK);
+	}
+	
+	@GetMapping("/showAllBooks")
+	List<BookDTO> showAllBooks() {
+		return this.libraryController.getAllBooks();
 	}
 }
