@@ -2,6 +2,8 @@ package br.sc.senac.librarySystem;
 
 public class BookDTO {
 
+	public static final BookDTO NUll_VALUE = new BookDTO("", "", "", "");
+	
 	private Long codeBook;
 	private String titleBook;
 	private String authorBook;
