@@ -14,4 +14,9 @@ public class LibraryService {
 	LibraryService(LibraryController libraryController) {
 		this.libraryController = libraryController;
 	}
+	
+	@PostMapping("/insertBook")
+	Long insertBook(@RequestBody BookDTO book) {
+		return this.libraryController.insertBookIntoRepository(book);
+	}
 }
