@@ -6,7 +6,8 @@ public class ReaderDTO {
 	private String readerName;
 	private Integer readerAge;
 	
-	ReaderDTO(String readerName, Integer readerAge) {
+	ReaderDTO(Long readerId, String readerName, Integer readerAge) {
+		this.readerId = readerId;
 		this.readerName = readerName;
 		this.readerAge = readerAge;
 	}
