@@ -48,7 +48,7 @@ public class LibraryController {
 		return BookDTO.NUll_VALUE;
 	}
 	
-	List<BookDTO> getAllBooksFromRepository(){
+	List<BookDTO> getAllBooksFromRepository() {
 		List<BookDTO> selectedBooks = new ArrayList<>();
 		Iterable<BookEntity> selectedEntities = bookRepository.findAll();
 		for (BookEntity bookEntity : selectedEntities) {

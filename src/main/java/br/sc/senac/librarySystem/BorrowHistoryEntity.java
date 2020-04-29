@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity(name = "History")
-public class BorrowHistoryEntity implements Serializable{
+public class BorrowHistoryEntity extends Auditable<String> implements Serializable {
 	
 	private static final long serialVersionUID = 6518750173406685691L;
 
