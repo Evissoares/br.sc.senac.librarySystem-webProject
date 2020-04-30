@@ -16,42 +16,24 @@ public class BorrowHistoryEntity extends Auditable<String> implements Serializab
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long BorrowHistoryId;
 	
-	private Long readerEntityId;
+	private ReaderEntity reader;
 	
-	private String readerEntityName;
-	
-	private Long codeBookEntity;
-	
-	private String titleBookEntity;
+	private BookEntity book;
 	
 	protected BorrowHistoryEntity() {
 		
 	}
 	
-	public BorrowHistoryEntity(Long readerId, String readerName, Long codeBook, String titleBook) {
-		this.readerEntityId = readerId;
-		this.readerEntityName = readerName;
-		this.codeBookEntity = codeBook;
-		this.titleBookEntity = titleBook;
+	public BorrowHistoryEntity(ReaderEntity reader, BookEntity book) {
+		this.reader = reader;
+		this.book = book;
 	}
 
-	public Long getBorrowHistoryId() {
-		return BorrowHistoryId;
+	public ReaderEntity getReader() {
+		return reader;
 	}
 
-	public Long getReaderEntityId() {
-		return readerEntityId;
-	}
-
-	public String getReaderEntityName() {
-		return readerEntityName;
-	}
-
-	public Long getCodeBookEntity() {
-		return codeBookEntity;
-	}
-
-	public String getTitleBookEntity() {
-		return titleBookEntity;
+	public BookEntity getBook() {
+		return book;
 	}
 }
