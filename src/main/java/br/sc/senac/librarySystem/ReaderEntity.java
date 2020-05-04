@@ -20,9 +20,12 @@ public class ReaderEntity implements Serializable {
 	
 	private Integer entityReaderAge;
 	
+	private Boolean entityActivityReader;
+	
 	public ReaderEntity(String readerName, Integer readerAge) {
 		this.entityReaderName = readerName;
 		this.entityReaderAge = readerAge;
+		this.entityActivityReader = true;
 	}
 	
 	protected ReaderEntity() {
@@ -55,5 +58,9 @@ public class ReaderEntity implements Serializable {
 	
 	public Long getReaderId() {
 		return this.readerId;
+	}
+	
+	public Boolean getActivityStatus() {
+		return this.entityActivityReader;
 	}
 }
