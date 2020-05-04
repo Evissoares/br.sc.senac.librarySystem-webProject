@@ -23,12 +23,15 @@ public class BookEntity implements Serializable {
 	private String genreBook;
 	
 	private String releaseDate;
+	
+	private Boolean borrowedStatus;
 
 	public BookEntity(String titleBook, String authorBook, String genreBook, String releaseDate) {
 		this.titleBook = titleBook;
 		this.authorBook = authorBook;
 		this.genreBook = genreBook;
 		this.releaseDate = releaseDate;
+		this.borrowedStatus = false;
 	}
 	
 	protected BookEntity() {
@@ -83,5 +86,9 @@ public class BookEntity implements Serializable {
 	
 	public Long getCodeBook() {
 		return this.codeBook;
+	}
+	
+	public Boolean getBorrowedStatus() {
+		return this.borrowedStatus;
 	}
 }
