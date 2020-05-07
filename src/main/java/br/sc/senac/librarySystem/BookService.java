@@ -64,4 +64,13 @@ public class BookService {
 	ResponseEntity<String> borrow(@PathVariable Long bookCode, @PathVariable Long userId) {
 		return new ResponseEntity<>(this.bookController.realizeBorrow(bookCode, userId), HttpStatus.OK);
 	}
+	
+	@GetMapping("showrecordofborrow/{borrowedId}")
+	ResponseEntity<BorrowedRecordsDTO> showRecord(@PathVariable Long borrowedId){
+		BorrowedRecordsDTO selectedRecord = this.bookController.showRecord(borrowedId);
+		if(selectedRecord.equals(BorrowedRecordsDTO.NULL_VALUE)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<BorrowedRecordsDTO>(selectedRecord, HttpStatus.OK);
+	}
 }

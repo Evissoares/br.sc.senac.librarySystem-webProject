@@ -10,13 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity(name = "borrowedHistory")
-public class BorrowedHistoryEntity implements Serializable {
+public class BorrowedRecordsEntity implements Serializable {
 
 	private static final long serialVersionUID = -2738018363258062316L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long historyId;
+	private Long borrowedId;
 	
 	@ManyToOne
 	private ReaderEntity reader;
@@ -24,15 +24,19 @@ public class BorrowedHistoryEntity implements Serializable {
 	@ManyToOne
 	private BookEntity book;
 	
-	private LocalDateTime dateOfBorrow;
+	private LocalDateTime dateOfBorrowed;
 	
-	public BorrowedHistoryEntity(ReaderEntity reader, BookEntity book) {
+	public BorrowedRecordsEntity(ReaderEntity reader, BookEntity book) {
 		this.reader = reader;
 		this.book = book;
 	}
+	
+	protected BorrowedRecordsEntity() {
+		
+	}
 
-	public Long getHistoryId() {
-		return historyId;
+	public Long getBorrowedId() {
+		return borrowedId;
 	}
 
 	public ReaderEntity getReader() {
@@ -43,11 +47,11 @@ public class BorrowedHistoryEntity implements Serializable {
 		return book;
 	}
 
-	public LocalDateTime getDateOfBorrow() {
-		return dateOfBorrow;
+	public LocalDateTime getDateOfBorrowed() {
+		return dateOfBorrowed;
 	}
 	
-	public void setDateOfBorrow(LocalDateTime dateOfBorrow) {
-		this.dateOfBorrow = dateOfBorrow;
+	public void setDateOfBorrowed(LocalDateTime dateOfBorrowed) {
+		this.dateOfBorrowed = dateOfBorrowed;
 	}
 }

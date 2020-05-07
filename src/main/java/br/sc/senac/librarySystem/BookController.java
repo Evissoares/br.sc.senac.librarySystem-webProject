@@ -11,11 +11,11 @@ import org.springframework.stereotype.Controller;
 public class BookController {
 
 	private final BookRepository bookRepository;
-	private final BorrowedHistoryController borrowedHistoryController;
+	private final BorrowedRecordsController borrowedRecordsController;
 
-	public BookController(BookRepository bookRepository, BorrowedHistoryController borrowedHistoryController) {
+	public BookController(BookRepository bookRepository, BorrowedRecordsController borrowedRecordsController) {
 		this.bookRepository = bookRepository;
-		this.borrowedHistoryController = borrowedHistoryController;
+		this.borrowedRecordsController = borrowedRecordsController;
 	}
 	
 	private static BookEntity toEntity(BookDTO bookDTO) {
@@ -93,8 +93,12 @@ public class BookController {
 	public String realizeBorrow(Long bookCode, Long userId) {
 		Optional<BookEntity> selectedBook = bookRepository.findById(bookCode);
 		if(selectedBook.isPresent()) {
-			return this.borrowedHistoryController.generateHistoryAndSave(selectedBook.get(), userId);
+			return this.borrowedRecordsController.generateRecordAndSave(selectedBook.get(), userId);
 		}
 		return "Livro não encontrado";
+	}
+	
+	public BorrowedRecordsDTO showRecord(Long BorrowedId) {
+		return this.borrowedRecordsController.showRecord(BorrowedId);
 	}
 }
