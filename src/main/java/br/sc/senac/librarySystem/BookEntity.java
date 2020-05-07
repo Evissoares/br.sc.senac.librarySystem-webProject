@@ -1,7 +1,6 @@
 package br.sc.senac.librarySystem;
 
 import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +13,7 @@ public class BookEntity implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long codeBook;
+	private Long bookcode;
 	
 	private String titleBook;
 	
@@ -23,25 +22,16 @@ public class BookEntity implements Serializable {
 	private String genreBook;
 	
 	private String releaseDate;
-	
-	private Boolean borrowedStatus;
-
+		
 	public BookEntity(String titleBook, String authorBook, String genreBook, String releaseDate) {
 		this.titleBook = titleBook;
 		this.authorBook = authorBook;
 		this.genreBook = genreBook;
 		this.releaseDate = releaseDate;
-		this.borrowedStatus = false;
 	}
 	
 	protected BookEntity() {
 		
-	}
-
-	@Override
-	public String toString() {
-		return "Título: " + titleBook +  "Autor: " + authorBook +  "Gênero: " + genreBook
-				+ "Data de lançamento: " + releaseDate;
 	}
 
 	public String getTitleBook() {
@@ -84,11 +74,7 @@ public class BookEntity implements Serializable {
 		}
 	}
 	
-	public Long getCodeBook() {
-		return this.codeBook;
-	}
-	
-	public Boolean getBorrowedStatus() {
-		return this.borrowedStatus;
+	public Long getBookCode() {
+		return this.bookcode;
 	}
 }

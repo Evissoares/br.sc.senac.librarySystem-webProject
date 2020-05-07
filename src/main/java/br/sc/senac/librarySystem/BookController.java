@@ -1,5 +1,6 @@
 package br.sc.senac.librarySystem;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Controller;
 public class BookController {
 
 	private final BookRepository bookRepository;
+	private final BorrowedHistoryController borrowedHistoryController;
 
-	public BookController(BookRepository bookRepository) {
+	public BookController(BookRepository bookRepository, BorrowedHistoryController borrowedHistoryController) {
 		this.bookRepository = bookRepository;
+		this.borrowedHistoryController = borrowedHistoryController;
 	}
 	
 	private static BookEntity toEntity(BookDTO bookDTO) {
@@ -24,22 +27,25 @@ public class BookController {
 	}
 	
 	private static BookDTO toDTO(BookEntity bookEntity) {
-		Long codeBook = bookEntity.getCodeBook();
+		Long bookCode = bookEntity.getBookCode();
 		String titleBook = bookEntity.getTitleBook();
 		String authorBook = bookEntity.getAuthorBook();
 		String genreBook = bookEntity.getGenreBook();
 		String releaseDate = bookEntity.getReleaseDate();
-		return new BookDTO(codeBook, titleBook, authorBook, genreBook, releaseDate);
+//		LocalDateTime dateOfBorrow = bookEntity.getDateOfBorrow();
+//		Instant instant = dateOfBorrow.toInstant(ZoneOffset.UTC);
+//	    Date date = Date.from(instant);
+		return new BookDTO(bookCode, titleBook, authorBook, genreBook, releaseDate);
 	}
 	
 	Long insertBookIntoRepository(BookDTO book) {
 		BookEntity bookEntity = BookController.toEntity(book);
 		bookRepository.save(bookEntity);
-		return bookEntity.getCodeBook();
+		return bookEntity.getBookCode();
 	}
 	
-	BookDTO getBookFromRepository(Long codeBook) {
-		Optional<BookEntity> bookEntity = bookRepository.findById(codeBook);
+	BookDTO getBookFromRepository(Long bookCode) {
+		Optional<BookEntity> bookEntity = bookRepository.findById(bookCode);
 		if (bookEntity.isPresent()) {
 			return BookController.toDTO(bookEntity.get());
 		}
@@ -55,8 +61,8 @@ public class BookController {
 		return selectedBooks;
 	}
 	
-	BookDTO removeBookFromRepository(Long codeBook) {
-		Optional<BookEntity> selectedBookEntity = bookRepository.findById(codeBook);
+	BookDTO removeBookFromRepository(Long bookCode) {
+		Optional<BookEntity> selectedBookEntity = bookRepository.findById(bookCode);
 		if (selectedBookEntity.isPresent()) {
 			BookDTO removedBook = BookController.toDTO(selectedBookEntity.get());
 			bookRepository.delete(selectedBookEntity.get());
@@ -82,5 +88,13 @@ public class BookController {
 			return oldBook;
 		}
 		return BookDTO.NUll_VALUE;
+	}
+	
+	public String realizeBorrow(Long bookCode, Long userId) {
+		Optional<BookEntity> selectedBook = bookRepository.findById(bookCode);
+		if(selectedBook.isPresent()) {
+			return this.borrowedHistoryController.generateHistoryAndSave(selectedBook.get(), userId);
+		}
+		return "Livro não encontrado";
 	}
 }

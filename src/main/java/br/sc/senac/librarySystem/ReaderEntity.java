@@ -1,7 +1,6 @@
 package br.sc.senac.librarySystem;
 
 import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,21 +18,14 @@ public class ReaderEntity implements Serializable {
 	private String entityReaderName;
 	
 	private Integer entityReaderAge;
-	
-	private Boolean entityActivityReader;
-	
+		
 	public ReaderEntity(String readerName, Integer readerAge) {
 		this.entityReaderName = readerName;
 		this.entityReaderAge = readerAge;
-		this.entityActivityReader = true;
 	}
 	
 	protected ReaderEntity() {
 		
-	}
-	
-	public String toString() {
-		return "Nome: " + this.entityReaderName + "Idade: " + this.entityReaderAge;
 	}
 
 	public String getEntityReaderName() {
@@ -58,9 +50,5 @@ public class ReaderEntity implements Serializable {
 	
 	public Long getReaderId() {
 		return this.readerId;
-	}
-	
-	public Boolean getActivityStatus() {
-		return this.entityActivityReader;
 	}
 }

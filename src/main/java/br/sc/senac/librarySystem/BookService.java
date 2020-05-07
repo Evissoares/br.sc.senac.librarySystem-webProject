@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/vbeta/libarysystem")
+@RequestMapping("api/vbeta/librarysystem")
 public class BookService {
 
 	private final BookController bookController;
@@ -58,5 +58,10 @@ public class BookService {
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
 		return new ResponseEntity<BookDTO>(updatedBook, HttpStatus.OK);
+	}
+	
+	@PostMapping("realizeborrow/{bookCode}/{userId}")
+	ResponseEntity<String> borrow(@PathVariable Long bookCode, @PathVariable Long userId) {
+		return new ResponseEntity<>(this.bookController.realizeBorrow(bookCode, userId), HttpStatus.OK);
 	}
 }
