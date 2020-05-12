@@ -1,4 +1,4 @@
-package br.sc.senac.librarySystem;
+package br.sc.senac.librarysystem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,21 +15,21 @@ private final ReaderRepository readerRepository;
 		this.readerRepository = readerRepository;
 	}
 
-	private static ReaderEntity toReaderEntity(ReaderDTO reader) {
+	private static ReaderEntity toEntity(ReaderDTO reader) {
 		String readerName = reader.getReaderName();
 		Integer readerAge = reader.getReaderAge();
 		return new ReaderEntity(readerName, readerAge);
 	}
 	
-	private static ReaderDTO toReaderDTO(ReaderEntity reader) {
+	private static ReaderDTO toDTO(ReaderEntity reader) {
 		Long readerId = reader.getReaderId();
-		String readerName = reader.getEntityReaderName();
-		Integer readerAge = reader.getEntityReaderAge();
+		String readerName = reader.getReaderName();
+		Integer readerAge = reader.getReaderAge();
 		return new ReaderDTO(readerId, readerName, readerAge);
 	}
 	
 	Long insertReaderIntoRepository(ReaderDTO reader) {
-		ReaderEntity readerEntity = ReaderController.toReaderEntity(reader);
+		ReaderEntity readerEntity = ReaderController.toEntity(reader);
 		readerRepository.save(readerEntity);
 		return readerEntity.getReaderId();
 	}
@@ -37,7 +37,7 @@ private final ReaderRepository readerRepository;
 	ReaderDTO getReaderFromRepository(Long readerId) {
 		Optional<ReaderEntity> selectedReaderEntity = readerRepository.findById(readerId);
 		if (selectedReaderEntity.isPresent()) {
-			return ReaderController.toReaderDTO(selectedReaderEntity.get());
+			return ReaderController.toDTO(selectedReaderEntity.get());
 		}
 		return ReaderDTO.NULL_VALUE;
 	}
@@ -46,35 +46,33 @@ private final ReaderRepository readerRepository;
 		List<ReaderDTO> selectedReaders = new ArrayList<>();
 		Iterable<ReaderEntity> selectedEntities = readerRepository.findAll();
 		for (ReaderEntity readerEntity : selectedEntities) {
-			selectedReaders.add(ReaderController.toReaderDTO(readerEntity));
+			selectedReaders.add(ReaderController.toDTO(readerEntity));
 		}
 		return selectedReaders;
 	}
 	
-    ReaderDTO removeReaderFromRepository(Long readerId) {
+    MensagensDeRetorno removeReaderFromRepository(Long readerId) {
     	Optional<ReaderEntity> selectedReaderEntity = readerRepository.findById(readerId);
     	if (selectedReaderEntity.isPresent()) {
-    		ReaderDTO removedReader = ReaderController.toReaderDTO(selectedReaderEntity.get());
     		readerRepository.delete(selectedReaderEntity.get());
-    		return removedReader;
+    		return MensagensDeRetorno.LEITOR_DELETADO;
     	}
-    	return ReaderDTO.NULL_VALUE;
+    	return MensagensDeRetorno.LEITOR_NAO_ENCONTRADO;
     }
 	
     private static void updateReaderEntityFromDTO(ReaderEntity oldReader, ReaderDTO newReader) {
-    	oldReader.setEntityReaderName(newReader.getReaderName());
-    	oldReader.setEntityReaderAge(newReader.getReaderAge());
+    	oldReader.setReaderName(newReader.getReaderName());
+    	oldReader.setReaderAge(newReader.getReaderAge());
     }
     
-    ReaderDTO updateReaderInRepository(ReaderDTO updateReader, Long readerId) {
+    MensagensDeRetorno updateReaderIntoRepository(ReaderDTO updatedReader, Long readerId) {
     	Optional<ReaderEntity> selectedReader = readerRepository.findById(readerId);
     	if (selectedReader.isPresent()) {
     		ReaderEntity readerForUpdate = selectedReader.get();
-    		ReaderDTO oldReader = ReaderController.toReaderDTO(selectedReader.get());
-    		ReaderController.updateReaderEntityFromDTO(readerForUpdate, updateReader);
+    		ReaderController.updateReaderEntityFromDTO(readerForUpdate, updatedReader);
     		readerRepository.save(readerForUpdate);
-    		return oldReader;
+    		return MensagensDeRetorno.LEITOR_ATUALIZADO;
     	}
-    	return ReaderDTO.NULL_VALUE;
+    	return MensagensDeRetorno.LEITOR_NAO_ENCONTRADO;
     }
 }

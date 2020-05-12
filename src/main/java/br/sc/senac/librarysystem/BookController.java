@@ -1,21 +1,17 @@
-package br.sc.senac.librarySystem;
-
+package br.sc.senac.librarysystem;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class BookController {
 
 	private final BookRepository bookRepository;
-	private final BorrowedRecordsController borrowedRecordsController;
 
-	public BookController(BookRepository bookRepository, BorrowedRecordsController borrowedRecordsController) {
+	public BookController(BookRepository bookRepository) {
 		this.bookRepository = bookRepository;
-		this.borrowedRecordsController = borrowedRecordsController;
 	}
 	
 	private static BookEntity toEntity(BookDTO bookDTO) {
@@ -27,21 +23,18 @@ public class BookController {
 	}
 	
 	private static BookDTO toDTO(BookEntity bookEntity) {
-		Long bookCode = bookEntity.getBookCode();
+		Long bookId = bookEntity.getBookId();
 		String titleBook = bookEntity.getTitleBook();
 		String authorBook = bookEntity.getAuthorBook();
 		String genreBook = bookEntity.getGenreBook();
 		String releaseDate = bookEntity.getReleaseDate();
-//		LocalDateTime dateOfBorrow = bookEntity.getDateOfBorrow();
-//		Instant instant = dateOfBorrow.toInstant(ZoneOffset.UTC);
-//	    Date date = Date.from(instant);
-		return new BookDTO(bookCode, titleBook, authorBook, genreBook, releaseDate);
+		return new BookDTO(bookId, titleBook, authorBook, genreBook, releaseDate);
 	}
 	
 	Long insertBookIntoRepository(BookDTO book) {
 		BookEntity bookEntity = BookController.toEntity(book);
 		bookRepository.save(bookEntity);
-		return bookEntity.getBookCode();
+	    return bookEntity.getBookId();
 	}
 	
 	BookDTO getBookFromRepository(Long bookCode) {
@@ -61,14 +54,13 @@ public class BookController {
 		return selectedBooks;
 	}
 	
-	BookDTO removeBookFromRepository(Long bookCode) {
+	MensagensDeRetorno removeBookFromRepository(Long bookCode) {
 		Optional<BookEntity> selectedBookEntity = bookRepository.findById(bookCode);
 		if (selectedBookEntity.isPresent()) {
-			BookDTO removedBook = BookController.toDTO(selectedBookEntity.get());
 			bookRepository.delete(selectedBookEntity.get());
-			return removedBook;
+			return MensagensDeRetorno.LIVRO_DELETADO;
 		}
-		return BookDTO.NUll_VALUE;
+		return MensagensDeRetorno.LIVRO_NAO_ENCONTRADO;
 	}
 	
 	private static void updateBookEntityFromDTO(BookEntity oldBook, BookDTO newBook) {
@@ -78,27 +70,14 @@ public class BookController {
 		oldBook.setReleaseDate(newBook.getReleaseDate());
 	}
 	
-	BookDTO updateBookInRepository(BookDTO updateBook, Long codeBook) {
+	MensagensDeRetorno updateBookInRepository(BookDTO updateBook, Long codeBook) {
 		Optional<BookEntity> selectedBook = bookRepository.findById(codeBook);
 		if (selectedBook.isPresent()) {
 			BookEntity bookForUpdate = selectedBook.get();
-			BookDTO oldBook = BookController.toDTO(selectedBook.get());
 			BookController.updateBookEntityFromDTO(bookForUpdate, updateBook);
 			bookRepository.save(bookForUpdate);
-			return oldBook;
+			return MensagensDeRetorno.LIVRO_ATUALIZADO;
 		}
-		return BookDTO.NUll_VALUE;
-	}
-	
-	public String realizeBorrow(Long bookCode, Long userId) {
-		Optional<BookEntity> selectedBook = bookRepository.findById(bookCode);
-		if(selectedBook.isPresent()) {
-			return this.borrowedRecordsController.generateRecordAndSave(selectedBook.get(), userId);
-		}
-		return "Livro não encontrado";
-	}
-	
-	public BorrowedRecordsDTO showRecord(Long BorrowedId) {
-		return this.borrowedRecordsController.showRecord(BorrowedId);
+		return MensagensDeRetorno.LIVRO_NAO_ENCONTRADO;
 	}
 }

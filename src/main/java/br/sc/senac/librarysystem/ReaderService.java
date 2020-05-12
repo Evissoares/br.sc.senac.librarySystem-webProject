@@ -1,4 +1,4 @@
-package br.sc.senac.librarySystem;
+package br.sc.senac.librarysystem;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/vbeta/librarysystem")
+@RequestMapping("api/v1/librarysystem")
 public class ReaderService {
 
 	private final ReaderController readerController;
@@ -43,20 +43,20 @@ public class ReaderService {
 	}
 	
 	@DeleteMapping("/deletereader/{readerId}")
-	ResponseEntity<ReaderDTO> deleteReader(@PathVariable Long readerId) {
-		ReaderDTO selectedReader = this.readerController.removeReaderFromRepository(readerId);
-		if(selectedReader.equals(ReaderDTO.NULL_VALUE)) {
-			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+	ResponseEntity<MensagensDeRetorno> deleteReader(@PathVariable Long readerId) {
+		MensagensDeRetorno message = this.readerController.removeReaderFromRepository(readerId);
+		if(message.equals(MensagensDeRetorno.LEITOR_DELETADO)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<ReaderDTO>(selectedReader, HttpStatus.OK);
+		return new ResponseEntity<>(message, HttpStatus.OK);
 	}
 	
 	@PutMapping("/updatereader/{readerId}")
-	ResponseEntity<ReaderDTO> updateBook(@RequestBody ReaderDTO updateReader, @PathVariable Long readerId) {
-		ReaderDTO updatedReader = this.readerController.updateReaderInRepository(updateReader, readerId);
-		if(updatedReader.equals(ReaderDTO.NULL_VALUE)) {
-			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+	ResponseEntity<MensagensDeRetorno> updateBook(@RequestBody ReaderDTO updateReader, @PathVariable Long readerId) {
+		MensagensDeRetorno message = this.readerController.updateReaderIntoRepository(updateReader, readerId);
+		if(message.equals(MensagensDeRetorno.LEITOR_NAO_ENCONTRADO)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<ReaderDTO>(updatedReader, HttpStatus.OK);
+		return new ResponseEntity<>(message, HttpStatus.OK);
 	}
 }

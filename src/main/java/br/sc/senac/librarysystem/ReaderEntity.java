@@ -1,4 +1,4 @@
-package br.sc.senac.librarySystem;
+package br.sc.senac.librarysystem;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -12,7 +12,7 @@ public class ReaderEntity implements Serializable {
 	private static final long serialVersionUID = -1384495822813041468L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long readerId;
 	
 	private String entityReaderName;
@@ -28,21 +28,21 @@ public class ReaderEntity implements Serializable {
 		
 	}
 
-	public String getEntityReaderName() {
+	public String getReaderName() {
 		return entityReaderName;
 	}
 
-	public void setEntityReaderName(String entityReaderName) {
+	public void setReaderName(String entityReaderName) {
 		if(entityReaderName != null) {
 		this.entityReaderName = entityReaderName;
 		}
 	}
 
-	public Integer getEntityReaderAge() {
+	public Integer getReaderAge() {
 		return entityReaderAge;
 	}
 
-	public void setEntityReaderAge(Integer entityReaderAge) {
+	public void setReaderAge(Integer entityReaderAge) {
 		if(entityReaderAge != null) {
 		this.entityReaderAge = entityReaderAge;
 		}

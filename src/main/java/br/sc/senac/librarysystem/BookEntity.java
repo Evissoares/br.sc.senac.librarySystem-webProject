@@ -1,4 +1,4 @@
-package br.sc.senac.librarySystem;
+package br.sc.senac.librarysystem;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -12,8 +12,8 @@ public class BookEntity implements Serializable {
 	private static final long serialVersionUID = -2940296870496603755L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long bookcode;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long bookId;
 	
 	private String titleBook;
 	
@@ -22,7 +22,7 @@ public class BookEntity implements Serializable {
 	private String genreBook;
 	
 	private String releaseDate;
-		
+	
 	public BookEntity(String titleBook, String authorBook, String genreBook, String releaseDate) {
 		this.titleBook = titleBook;
 		this.authorBook = authorBook;
@@ -74,7 +74,7 @@ public class BookEntity implements Serializable {
 		}
 	}
 	
-	public Long getBookCode() {
-		return this.bookcode;
+	public Long getBookId() {
+		return this.bookId;
 	}
 }

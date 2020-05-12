@@ -1,4 +1,4 @@
-package br.sc.senac.librarySystem;
+package br.sc.senac.librarysystem;
 
 public class ReaderDTO {
 
@@ -25,4 +25,5 @@ public class ReaderDTO {
 	public Integer getReaderAge() {
 		return readerAge;
 	}
+	
 }
