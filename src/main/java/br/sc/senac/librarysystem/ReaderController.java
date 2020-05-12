@@ -15,6 +15,17 @@ private final ReaderRepository readerRepository;
 		this.readerRepository = readerRepository;
 	}
 
+	public void addDefault() {
+		ReaderEntity entidade = new ReaderEntity("Lucas", 18);
+		readerRepository.save(entidade);
+		
+		entidade = new ReaderEntity("Everton", 27);
+		readerRepository.save(entidade);
+		
+		entidade = new ReaderEntity("Marcelo", 33);
+		readerRepository.save(entidade);
+	}
+	
 	private static ReaderEntity toEntity(ReaderDTO reader) {
 		String readerName = reader.getReaderName();
 		Integer readerAge = reader.getReaderAge();

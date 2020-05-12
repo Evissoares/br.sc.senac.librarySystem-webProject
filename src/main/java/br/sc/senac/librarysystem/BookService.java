@@ -23,6 +23,11 @@ public class BookService {
 		this.bookController = bookController;
 	}
 	
+	@PostMapping("/adddefault")
+	void entidadesPadrao() {
+		this.bookController.addDefault();
+	}
+	
 	@PostMapping("/insertbook")
 	Long insertBook(@RequestBody BookDTO book) {
 		return this.bookController.insertBookIntoRepository(book);

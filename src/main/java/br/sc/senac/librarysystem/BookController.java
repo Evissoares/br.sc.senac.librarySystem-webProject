@@ -14,6 +14,17 @@ public class BookController {
 		this.bookRepository = bookRepository;
 	}
 	
+	void addDefault() {
+		BookEntity entidade = new BookEntity("Dragon Ball Z", "Akira Toryiama", "Ação", "Desconhecido");
+		bookRepository.save(entidade);
+		
+		entidade = new BookEntity("Cavaleiros do Zodíaco", "Masami Kurumada", "Ação", "Desconhecido");
+		bookRepository.save(entidade);
+		
+		entidade = new BookEntity("Dragon Ball GT", "Akira Toryiama", "Ação", "Desconhecido");
+		bookRepository.save(entidade);
+	}
+	
 	private static BookEntity toEntity(BookDTO bookDTO) {
 		String titleBook = bookDTO.getTitleBook();
 		String authorBook = bookDTO.getAuthorBook();

@@ -23,6 +23,11 @@ public class ReaderService {
 		this.readerController = readerController; 
 	}
 	
+	@PostMapping("/salvarpadrao")
+	void criaEntidadespadrao() {
+		this.readerController.addDefault();
+	}
+	
 	@PostMapping("/insertreader")
 	Long insertReader(@RequestBody ReaderDTO reader) {
 		return this.readerController.insertReaderIntoRepository(reader);
