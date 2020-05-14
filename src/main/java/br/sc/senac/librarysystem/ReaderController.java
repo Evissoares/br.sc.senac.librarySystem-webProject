@@ -71,24 +71,24 @@ private final ReaderRepository readerRepository;
     	}
     	return ReaderDTO.NULL_VALUE;
     }
-	
-    /*private static void updateReaderEntityFromDTO(ReaderEntity oldReader, ReaderDTO newReader) {
-    	oldReader.setReaderName(newReader.getReaderName());
-    	oldReader.setReaderAge(newReader.getReaderAge());
-    }
     
-    MensagensDeRetorno updateReaderIntoRepository(ReaderDTO updatedReader, Long readerId) {
+    ReaderDTO updateReaderIntoRepository(ReaderDTO newReader, Long readerId) {
     	Optional<ReaderEntity> selectedReader = readerRepository.findById(readerId);
     	if (selectedReader.isPresent()) {
-    		ReaderEntity readerForUpdate = selectedReader.get();
-    		ReaderController.updateReaderEntityFromDTO(readerForUpdate, updatedReader);
-    		readerRepository.save(readerForUpdate);
-    		return MensagensDeRetorno.LEITOR_ATUALIZADO;
+    		ReaderDTO oldReader = toDTO(selectedReader.get());
+    		selectedReader.get().setReaderName(newReader.getReaderName());
+    		selectedReader.get().setReaderAge(newReader.getReaderAge());
+    		readerRepository.save(selectedReader.get());
+    		return oldReader;
     	}
-    	return MensagensDeRetorno.LEITOR_NAO_ENCONTRADO;
-    }*/
+    	return ReaderDTO.NULL_VALUE;
+    }
     
     MensagensDeRetorno<ReaderDTO> deleteReader(ReaderDTO deletedReader) {
     	return new MensagensDeRetorno<ReaderDTO>(deletedReader, MensagensDeRetorno.LEITOR_DELETADO);
+    }
+    
+    MensagensDeRetorno<ReaderDTO> updateReader(ReaderDTO oldReader) {
+    	return new MensagensDeRetorno<ReaderDTO>(oldReader, MensagensDeRetorno.LEITOR_ATUALIZADO);
     }
 }

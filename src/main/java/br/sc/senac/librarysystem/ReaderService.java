@@ -57,12 +57,13 @@ public class ReaderService {
 		return new ResponseEntity<>(mensagemDeRetorno, HttpStatus.OK);
 	}
 	
-	/*@PutMapping("/updatereader/{readerId}")
-	ResponseEntity<MensagensDeRetorno> updateBook(@RequestBody ReaderDTO updateReader, @PathVariable Long readerId) {
-		MensagensDeRetorno message = this.readerController.updateReaderIntoRepository(updateReader, readerId);
-		if(message.equals(MensagensDeRetorno.LEITOR_NAO_ENCONTRADO)) {
+	@PutMapping("/updatereader/{readerId}")
+	ResponseEntity<MensagensDeRetorno<ReaderDTO>> updateReader(@RequestBody ReaderDTO newReader, @PathVariable Long readerId) {
+		ReaderDTO oldReader = this.readerController.updateReaderIntoRepository(newReader, readerId);
+		if(oldReader.equals(ReaderDTO.NULL_VALUE)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(message, HttpStatus.OK);
-	}*/
+		MensagensDeRetorno<ReaderDTO> mensagemDeRetorno = this.readerController.updateReader(oldReader);
+		return new ResponseEntity<>(mensagemDeRetorno, HttpStatus.OK);
+	}
 }
