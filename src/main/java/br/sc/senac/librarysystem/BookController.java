@@ -66,11 +66,11 @@ public class BookController {
 	}
 	
 	BookDTO removeBookFromRepository(Long bookCode) {
-		Optional<BookEntity> selectedBookEntity = bookRepository.findById(bookCode);
-		if (selectedBookEntity.isPresent()) {
-			BookEntity bookEntity = selectedBookEntity.get();
-			bookRepository.delete(bookEntity);
-			return toDTO(bookEntity);
+		Optional<BookEntity> selectedBook = bookRepository.findById(bookCode);
+		if (selectedBook.isPresent()) {
+			BookDTO oldBook = toDTO(selectedBook.get());
+			bookRepository.delete(selectedBook.get());
+			return oldBook;
 		}
 		return BookDTO.NUll_VALUE;
 	}
