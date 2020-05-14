@@ -48,20 +48,21 @@ public class BookService {
 	}
 	
 	@DeleteMapping("/deletebook/{codeBook}")
-	ResponseEntity<MensagensDeRetorno> deleteBook(@PathVariable Long codeBook) {
-		MensagensDeRetorno message = this.bookController.removeBookFromRepository(codeBook);
-		if(message.equals(MensagensDeRetorno.LIVRO_DELETADO)) {
+	ResponseEntity<MensagensDeRetorno<BookDTO>> deleteBook(@PathVariable Long codeBook) {
+		BookDTO deletedBook = this.bookController.removeBookFromRepository(codeBook);
+		if(deletedBook.equals(BookDTO.NUll_VALUE)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(message, HttpStatus.OK);
+		MensagensDeRetorno<BookDTO> mensagemDeRetorno = this.bookController.mensagemDeletado(deletedBook);
+		return new ResponseEntity<>(mensagemDeRetorno, HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatebook/{codeBook}")
+	/*@PutMapping("/updatebook/{codeBook}")
 	ResponseEntity<MensagensDeRetorno> updateBook(@RequestBody BookDTO updateBook, @PathVariable Long codeBook) {
 		MensagensDeRetorno message = this.bookController.updateBookInRepository(updateBook, codeBook);
-		if(message.equals(MensagensDeRetorno.LIVRO_ATUALIZADO)) {
-			return new ResponseEntity<>(message, HttpStatus.NOT_MODIFIED);
+		if(message.equals(MensagensDeRetorno.LIVRO_NAO_ENCONTRADO)) {
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
 		return new ResponseEntity<>(message, HttpStatus.OK);
-	}
+	}*/
 }

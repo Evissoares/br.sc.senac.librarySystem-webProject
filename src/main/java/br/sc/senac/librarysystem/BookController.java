@@ -65,16 +65,17 @@ public class BookController {
 		return selectedBooks;
 	}
 	
-	MensagensDeRetorno removeBookFromRepository(Long bookCode) {
+	BookDTO removeBookFromRepository(Long bookCode) {
 		Optional<BookEntity> selectedBookEntity = bookRepository.findById(bookCode);
 		if (selectedBookEntity.isPresent()) {
-			bookRepository.delete(selectedBookEntity.get());
-			return MensagensDeRetorno.LIVRO_DELETADO;
+			BookEntity bookEntity = selectedBookEntity.get();
+			bookRepository.delete(bookEntity);
+			return toDTO(bookEntity);
 		}
-		return MensagensDeRetorno.LIVRO_NAO_ENCONTRADO;
+		return BookDTO.NUll_VALUE;
 	}
 	
-	private static void updateBookEntityFromDTO(BookEntity oldBook, BookDTO newBook) {
+	/*private static void updateBookEntityFromDTO(BookEntity oldBook, BookDTO newBook) {
 		oldBook.setTitleBook(newBook.getTitleBook());
 		oldBook.setAuthorBook(newBook.getAuthorBook());
 		oldBook.setGenreBook(newBook.getGenreBook());
@@ -90,5 +91,9 @@ public class BookController {
 			return MensagensDeRetorno.LIVRO_ATUALIZADO;
 		}
 		return MensagensDeRetorno.LIVRO_NAO_ENCONTRADO;
+	}*/
+	
+	MensagensDeRetorno<BookDTO> mensagemDeletado(BookDTO deletedBook) {
+		return new MensagensDeRetorno<BookDTO>(deletedBook, MensagensDeRetorno.LIVRO_DELETADO);
 	}
 }

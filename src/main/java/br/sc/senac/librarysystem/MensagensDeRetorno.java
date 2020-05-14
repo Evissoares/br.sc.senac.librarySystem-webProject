@@ -1,27 +1,35 @@
 package br.sc.senac.librarysystem;
 
-public class MensagensDeRetorno {
+public class MensagensDeRetorno<DTO> {
+
+	public static final String LIVRO_ATUALIZADO = "Livro atualizado";
+	public static final String LIVRO_DELETADO = "Livro deletado";
+	public static final String LIVRO_CADASTRADO = "Livro cadastrado";
+	public static final String LIVRO_NAO_ENCONTRADO = "Livro não encontrado";
 	
-	public static final MensagensDeRetorno LIVRO_ATUALIZADO = new MensagensDeRetorno("Livro atualizado");
-	public static final MensagensDeRetorno LIVRO_DELETADO = new MensagensDeRetorno("Livro deletado");
-	public static final MensagensDeRetorno LIVRO_CADASTRADO = new MensagensDeRetorno("Livro cadastrado");
-	public static final MensagensDeRetorno LIVRO_NAO_ENCONTRADO = new MensagensDeRetorno("Livro não encontrado");
+	public static final String LEITOR_NAO_ENCONTRADO = "Leitor não encontrado";
+	public static final String LEITOR_DELETADO = "Leitor excluído";
+	public static final String LEITOR_ATUALIZADO = "Leitor atualizado";
+	public static final String LEITOR_CADASTRADO = "Leitor cadastrado";
 	
-	public static final MensagensDeRetorno LEITOR_NAO_ENCONTRADO = new MensagensDeRetorno("Leitor não encontrado");
-	public static final MensagensDeRetorno LEITOR_DELETADO = new MensagensDeRetorno("Leitor excluído");
-	public static final MensagensDeRetorno LEITOR_ATUALIZADO = new MensagensDeRetorno("Leitor atualizado");
-	public static final MensagensDeRetorno LEITOR_CADASTRADO = new MensagensDeRetorno("Leitor cadastrado");
-	
-	public static final MensagensDeRetorno HISTORICO_NAO_ENCONTRADO = new MensagensDeRetorno("Histórico não encontrado");
-	public static final MensagensDeRetorno HISTORICO_CRIADO = new MensagensDeRetorno("Empréstimo realizado");
+	public static final String HISTORICO_NAO_ENCONTRADO = "Histórico não encontrado";
+	public static final String HISTORICO_CRIADO = "Empréstimo realizado";
 	
 	private String message;
-
-	public MensagensDeRetorno(String message) {
+	private DTO response;
+	
+	public MensagensDeRetorno(DTO dto, String message) {
 		this.message = message;
+		this.response = dto;
 	}
 	
 	public String getMessage() {
 		return this.message;
 	}
+
+	public DTO getResponse() {
+		return response;
+	}
+	
+	
 }
