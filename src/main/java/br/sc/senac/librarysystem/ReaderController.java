@@ -62,16 +62,17 @@ private final ReaderRepository readerRepository;
 		return selectedReaders;
 	}
 	
-    MensagensDeRetorno removeReaderFromRepository(Long readerId) {
+    ReaderDTO removeReaderFromRepository(Long readerId) {
     	Optional<ReaderEntity> selectedReaderEntity = readerRepository.findById(readerId);
     	if (selectedReaderEntity.isPresent()) {
+    		ReaderDTO oldReader = toDTO(selectedReaderEntity.get());
     		readerRepository.delete(selectedReaderEntity.get());
-    		return MensagensDeRetorno.LEITOR_DELETADO;
+    		return oldReader;
     	}
-    	return MensagensDeRetorno.LEITOR_NAO_ENCONTRADO;
+    	return ReaderDTO.NULL_VALUE;
     }
 	
-    private static void updateReaderEntityFromDTO(ReaderEntity oldReader, ReaderDTO newReader) {
+    /*private static void updateReaderEntityFromDTO(ReaderEntity oldReader, ReaderDTO newReader) {
     	oldReader.setReaderName(newReader.getReaderName());
     	oldReader.setReaderAge(newReader.getReaderAge());
     }
@@ -85,5 +86,9 @@ private final ReaderRepository readerRepository;
     		return MensagensDeRetorno.LEITOR_ATUALIZADO;
     	}
     	return MensagensDeRetorno.LEITOR_NAO_ENCONTRADO;
+    }*/
+    
+    MensagensDeRetorno<ReaderDTO> deleteReader(ReaderDTO deletedReader) {
+    	return new MensagensDeRetorno<ReaderDTO>(deletedReader, MensagensDeRetorno.LEITOR_DELETADO);
     }
 }

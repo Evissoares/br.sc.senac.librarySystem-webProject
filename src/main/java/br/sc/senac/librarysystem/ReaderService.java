@@ -48,20 +48,21 @@ public class ReaderService {
 	}
 	
 	@DeleteMapping("/deletereader/{readerId}")
-	ResponseEntity<MensagensDeRetorno> deleteReader(@PathVariable Long readerId) {
-		MensagensDeRetorno message = this.readerController.removeReaderFromRepository(readerId);
-		if(message.equals(MensagensDeRetorno.LEITOR_DELETADO)) {
+	ResponseEntity<MensagensDeRetorno<ReaderDTO>> deleteReader(@PathVariable Long readerId) {
+		ReaderDTO deletedReader = this.readerController.removeReaderFromRepository(readerId);
+		if(deletedReader.equals(ReaderDTO.NULL_VALUE)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(message, HttpStatus.OK);
+		MensagensDeRetorno<ReaderDTO> mensagemDeRetorno = this.readerController.deleteReader(deletedReader);
+		return new ResponseEntity<>(mensagemDeRetorno, HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatereader/{readerId}")
+	/*@PutMapping("/updatereader/{readerId}")
 	ResponseEntity<MensagensDeRetorno> updateBook(@RequestBody ReaderDTO updateReader, @PathVariable Long readerId) {
 		MensagensDeRetorno message = this.readerController.updateReaderIntoRepository(updateReader, readerId);
 		if(message.equals(MensagensDeRetorno.LEITOR_NAO_ENCONTRADO)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(message, HttpStatus.OK);
-	}
+	}*/
 }
