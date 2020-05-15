@@ -81,7 +81,11 @@ public class BookController {
 	}
 	
 	BookDTO updateBookInRepository(BookDTO newBook, Long codeBook) {
+<<<<<<< HEAD
 		Optional<BookEntity> selectedBook = getBookById(codeBook);
+=======
+		Optional<BookEntity> selectedBook = bookRepository.findById(codeBook);
+>>>>>>> e1c44f9df51d436657ed677a32180c95ae685699
 		if (selectedBook.isPresent()) {
 			BookDTO oldBook = toDTO(selectedBook.get());
 			selectedBook.get().setTitleBook(newBook.getTitleBook());
