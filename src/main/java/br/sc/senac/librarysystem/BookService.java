@@ -57,12 +57,13 @@ public class BookService {
 		return new ResponseEntity<>(mensagemDeRetorno, HttpStatus.OK);
 	}
 	
-	/*@PutMapping("/updatebook/{codeBook}")
-	ResponseEntity<MensagensDeRetorno> updateBook(@RequestBody BookDTO updateBook, @PathVariable Long codeBook) {
-		MensagensDeRetorno message = this.bookController.updateBookInRepository(updateBook, codeBook);
-		if(message.equals(MensagensDeRetorno.LIVRO_NAO_ENCONTRADO)) {
-			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+	@PutMapping("/updatebook/{codeBook}")
+	ResponseEntity<MensagensDeRetorno<BookDTO>> updateBook(@RequestBody BookDTO updateBook, @PathVariable Long codeBook) {
+		BookDTO oldBook = this.bookController.updateBookInRepository(updateBook, codeBook);
+		if(oldBook.equals(BookDTO.NUll_VALUE)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(message, HttpStatus.OK);
-	}*/
+		MensagensDeRetorno<BookDTO> mensagemDeRetorno = this.bookController.mensagemAtualizado(oldBook);
+		return new ResponseEntity<>(mensagemDeRetorno, HttpStatus.OK);
+	}
 }

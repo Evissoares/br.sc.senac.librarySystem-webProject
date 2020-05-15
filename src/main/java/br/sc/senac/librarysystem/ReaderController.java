@@ -46,11 +46,16 @@ private final ReaderRepository readerRepository;
 	}
 	
 	ReaderDTO getReaderFromRepository(Long readerId) {
-		Optional<ReaderEntity> selectedReaderEntity = readerRepository.findById(readerId);
+		Optional<ReaderEntity> selectedReaderEntity = getReaderById(readerId);
 		if (selectedReaderEntity.isPresent()) {
 			return ReaderController.toDTO(selectedReaderEntity.get());
 		}
 		return ReaderDTO.NULL_VALUE;
+	}
+
+	Optional<ReaderEntity> getReaderById(Long readerId) {
+		Optional<ReaderEntity> selectedReaderEntity = readerRepository.findById(readerId);
+		return selectedReaderEntity;
 	}
 	
 	List<ReaderDTO> getAllReadersFromRepository() {
@@ -63,7 +68,7 @@ private final ReaderRepository readerRepository;
 	}
 	
     ReaderDTO removeReaderFromRepository(Long readerId) {
-    	Optional<ReaderEntity> selectedReaderEntity = readerRepository.findById(readerId);
+    	Optional<ReaderEntity> selectedReaderEntity = getReaderById(readerId);
     	if (selectedReaderEntity.isPresent()) {
     		ReaderDTO oldReader = toDTO(selectedReaderEntity.get());
     		readerRepository.delete(selectedReaderEntity.get());
@@ -73,7 +78,7 @@ private final ReaderRepository readerRepository;
     }
     
     ReaderDTO updateReaderIntoRepository(ReaderDTO newReader, Long readerId) {
-    	Optional<ReaderEntity> selectedReader = readerRepository.findById(readerId);
+    	Optional<ReaderEntity> selectedReader = getReaderById(readerId);
     	if (selectedReader.isPresent()) {
     		ReaderDTO oldReader = toDTO(selectedReader.get());
     		selectedReader.get().setReaderName(newReader.getReaderName());

@@ -9,14 +9,14 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class SolicitacaoDeEmprestimosController {
 
-	private BookRepository bookRepository;
-	private ReaderRepository readerRepository;
 	private SolicitacaoDeEmprestimosRepository solicitacaoDeEmprestimosRepository;
+	private final ReaderController readerController;
+	private final BookController bookController;
 
-	public SolicitacaoDeEmprestimosController(BookRepository bookRepository, ReaderRepository readerRepository, SolicitacaoDeEmprestimosRepository solicitacaoDeEmprestimosRepository) {
-		this.bookRepository = bookRepository;
-		this.readerRepository = readerRepository;
+	public SolicitacaoDeEmprestimosController(SolicitacaoDeEmprestimosRepository solicitacaoDeEmprestimosRepository, ReaderController readerController, BookController bookController) {
 		this.solicitacaoDeEmprestimosRepository = solicitacaoDeEmprestimosRepository;
+		this.readerController = readerController;
+		this.bookController = bookController;
 	}
 
 	private RetornoSolicitacaoDeEmprestimoDTO toDTO(SolicitacaoDeEmprestimosEntity entidade) {
@@ -31,13 +31,18 @@ public class SolicitacaoDeEmprestimosController {
 		return new RetornoSolicitacaoDeEmprestimoDTO(emprestimoId, readerId, readerName, bookId, titleBook, authorBook);
 	}
 	
-	public Long solicitarESalvar(SolicitacaoDeEmprestimosDTO solicitacao) {
-		Optional<BookEntity> currentBook = bookRepository.findById(solicitacao.getBookId());
-		Optional<ReaderEntity> currentReader = readerRepository.findById(solicitacao.getReaderId());
-		
-		SolicitacaoDeEmprestimosEntity solicitacaoRegistro = new SolicitacaoDeEmprestimosEntity(currentReader.get(), currentBook.get());
-		solicitacaoDeEmprestimosRepository.save(solicitacaoRegistro);
-		return solicitacaoRegistro.getEmprestimoId();
+	public MensagensDeRetorno<Long> solicitarESalvar(Long readerId, Long bookCode) {
+		Optional<ReaderEntity> selectedReader = this.readerController.getReaderById(readerId);
+		Optional<BookEntity> selectedBook = this.bookController.getBookById(bookCode);	
+		if(selectedReader.isPresent()) {
+			if(selectedBook.isPresent()) {
+				SolicitacaoDeEmprestimosEntity novoRegistro = new SolicitacaoDeEmprestimosEntity(selectedReader.get(), selectedBook.get());
+				solicitacaoDeEmprestimosRepository.save(novoRegistro);
+				return new MensagensDeRetorno<Long>(novoRegistro.getEmprestimoId(), MensagensDeRetorno.HISTORICO_CRIADO);
+			}
+			return new MensagensDeRetorno<Long>(bookCode, MensagensDeRetorno.LIVRO_NAO_ENCONTRADO);
+		}
+		return new MensagensDeRetorno<Long>(readerId, MensagensDeRetorno.LEITOR_NAO_ENCONTRADO);
 	}
 	
 	public RetornoSolicitacaoDeEmprestimoDTO pegarHistorico(Long emprestimoId) {

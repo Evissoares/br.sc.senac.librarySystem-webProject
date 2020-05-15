@@ -49,11 +49,16 @@ public class BookController {
 	}
 	
 	BookDTO getBookFromRepository(Long bookCode) {
-		Optional<BookEntity> bookEntity = bookRepository.findById(bookCode);
+		Optional<BookEntity> bookEntity = getBookById(bookCode);
 		if (bookEntity.isPresent()) {
 			return BookController.toDTO(bookEntity.get());
 		}
 		return BookDTO.NUll_VALUE;
+	}
+
+	Optional<BookEntity> getBookById(Long bookCode) {
+		Optional<BookEntity> bookEntity = bookRepository.findById(bookCode);
+		return bookEntity;
 	}
 	
 	List<BookDTO> getAllBooksFromRepository() {
@@ -66,7 +71,7 @@ public class BookController {
 	}
 	
 	BookDTO removeBookFromRepository(Long bookCode) {
-		Optional<BookEntity> selectedBook = bookRepository.findById(bookCode);
+		Optional<BookEntity> selectedBook = getBookById(bookCode);
 		if (selectedBook.isPresent()) {
 			BookDTO oldBook = toDTO(selectedBook.get());
 			bookRepository.delete(selectedBook.get());
@@ -75,25 +80,25 @@ public class BookController {
 		return BookDTO.NUll_VALUE;
 	}
 	
-	/*private static void updateBookEntityFromDTO(BookEntity oldBook, BookDTO newBook) {
-		oldBook.setTitleBook(newBook.getTitleBook());
-		oldBook.setAuthorBook(newBook.getAuthorBook());
-		oldBook.setGenreBook(newBook.getGenreBook());
-		oldBook.setReleaseDate(newBook.getReleaseDate());
-	}
-	
-	MensagensDeRetorno updateBookInRepository(BookDTO updateBook, Long codeBook) {
-		Optional<BookEntity> selectedBook = bookRepository.findById(codeBook);
+	BookDTO updateBookInRepository(BookDTO newBook, Long codeBook) {
+		Optional<BookEntity> selectedBook = getBookById(codeBook);
 		if (selectedBook.isPresent()) {
-			BookEntity bookForUpdate = selectedBook.get();
-			BookController.updateBookEntityFromDTO(bookForUpdate, updateBook);
-			bookRepository.save(bookForUpdate);
-			return MensagensDeRetorno.LIVRO_ATUALIZADO;
+			BookDTO oldBook = toDTO(selectedBook.get());
+			selectedBook.get().setTitleBook(newBook.getTitleBook());
+			selectedBook.get().setAuthorBook(newBook.getAuthorBook());
+			selectedBook.get().setGenreBook(newBook.getGenreBook());
+			selectedBook.get().setReleaseDate(newBook.getReleaseDate());
+			bookRepository.save(selectedBook.get());
+			return oldBook;
 		}
-		return MensagensDeRetorno.LIVRO_NAO_ENCONTRADO;
-	}*/
+		return BookDTO.NUll_VALUE;
+	}
 	
 	MensagensDeRetorno<BookDTO> mensagemDeletado(BookDTO deletedBook) {
 		return new MensagensDeRetorno<BookDTO>(deletedBook, MensagensDeRetorno.LIVRO_DELETADO);
+	}
+	
+	MensagensDeRetorno<BookDTO> mensagemAtualizado(BookDTO oldBook) {
+		return new MensagensDeRetorno<BookDTO>(oldBook, MensagensDeRetorno.LIVRO_ATUALIZADO);
 	}
 }

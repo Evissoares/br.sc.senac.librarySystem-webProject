@@ -30,6 +30,4 @@ public class MensagensDeRetorno<DTO> {
 	public DTO getResponse() {
 		return response;
 	}
-	
-	
 }
