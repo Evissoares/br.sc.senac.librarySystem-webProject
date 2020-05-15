@@ -2,6 +2,8 @@ package br.sc.senac.librarysystem;
 
 public class RetornoSolicitacaoDeEmprestimoDTO {
 	
+	public static RetornoSolicitacaoDeEmprestimoDTO NULL_VALUE = new RetornoSolicitacaoDeEmprestimoDTO(Long.valueOf(0), Long.valueOf(0), "", Long.valueOf(0), "", "");
+	
 	private Long emprestimoId;
 	private Long readerId;
 	private String readerName;

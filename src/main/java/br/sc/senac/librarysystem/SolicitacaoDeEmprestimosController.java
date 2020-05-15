@@ -47,10 +47,12 @@ public class SolicitacaoDeEmprestimosController {
 	
 	public RetornoSolicitacaoDeEmprestimoDTO pegarHistorico(Long emprestimoId) {
 		Optional<SolicitacaoDeEmprestimosEntity> historicoSelecionado = solicitacaoDeEmprestimosRepository.findById(emprestimoId);
-		SolicitacaoDeEmprestimosEntity entidadeSelecionada = historicoSelecionado.get();
-		return toDTO(entidadeSelecionada);
+		if(historicoSelecionado.isPresent()) {
+			return toDTO(historicoSelecionado.get());
+		}
+		return RetornoSolicitacaoDeEmprestimoDTO.NULL_VALUE;
 	}
-	
+	/*
 	List<RetornoSolicitacaoDeEmprestimoDTO> pegarTodosOsHistoricos() {
 		List<RetornoSolicitacaoDeEmprestimoDTO> historicosSelecionados = new ArrayList<>();
 		Iterable<SolicitacaoDeEmprestimosEntity> entidades = solicitacaoDeEmprestimosRepository.findAll();
@@ -58,5 +60,9 @@ public class SolicitacaoDeEmprestimosController {
 			historicosSelecionados.add(toDTO(entidade));
 		}
 		return historicosSelecionados;
+	}*/
+	
+	MensagensDeRetorno<RetornoSolicitacaoDeEmprestimoDTO> retornarHistorico(RetornoSolicitacaoDeEmprestimoDTO retornoDeHistorico) {
+		return new MensagensDeRetorno<RetornoSolicitacaoDeEmprestimoDTO>(retornoDeHistorico);
 	}
 }
