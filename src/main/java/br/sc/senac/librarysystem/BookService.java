@@ -29,7 +29,7 @@ public class BookService {
 	}
 	
 	@PostMapping("/insertbook")
-	Long insertBook(@RequestBody BookDTO book) {
+	MensagensDeRetorno<Long> insertBook(@RequestBody BookDTO book) {
 		return this.bookController.insertBookIntoRepository(book);
 	}
 	

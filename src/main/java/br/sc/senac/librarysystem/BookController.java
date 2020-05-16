@@ -42,10 +42,10 @@ public class BookController {
 		return new BookDTO(bookId, titleBook, authorBook, genreBook, releaseDate);
 	}
 	
-	Long insertBookIntoRepository(BookDTO book) {
+	MensagensDeRetorno<Long> insertBookIntoRepository(BookDTO book) {
 		BookEntity bookEntity = BookController.toEntity(book);
 		bookRepository.save(bookEntity);
-	    return bookEntity.getBookId();
+	    return new MensagensDeRetorno<>(bookEntity.getBookId(), MensagensDeRetorno.LIVRO_CADASTRADO);
 	}
 	
 	BookDTO getBookFromRepository(Long bookCode) {
