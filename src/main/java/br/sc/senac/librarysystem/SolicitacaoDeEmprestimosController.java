@@ -61,8 +61,4 @@ public class SolicitacaoDeEmprestimosController {
 		}
 		return historicosSelecionados;
 	}*/
-	
-	MensagensDeRetorno<RetornoSolicitacaoDeEmprestimoDTO> retornarHistorico(RetornoSolicitacaoDeEmprestimoDTO retornoDeHistorico) {
-		return new MensagensDeRetorno<RetornoSolicitacaoDeEmprestimoDTO>(retornoDeHistorico);
-	}
 }

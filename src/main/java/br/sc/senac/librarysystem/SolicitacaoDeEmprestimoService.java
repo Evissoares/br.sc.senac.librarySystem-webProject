@@ -30,12 +30,11 @@ public class SolicitacaoDeEmprestimoService {
 	}*/
 	
 	@GetMapping("/details/{emprestimoId}")
-	ResponseEntity<MensagensDeRetorno<RetornoSolicitacaoDeEmprestimoDTO>> pegarhistorico(@PathVariable Long emprestimoId) {
+	ResponseEntity<RetornoSolicitacaoDeEmprestimoDTO> pegarhistorico(@PathVariable Long emprestimoId) {
 		RetornoSolicitacaoDeEmprestimoDTO retornoDeHistorico = solicitacaoController.pegarHistorico(emprestimoId);
 		if(retornoDeHistorico.equals(RetornoSolicitacaoDeEmprestimoDTO.NULL_VALUE)) {
  			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		MensagensDeRetorno<RetornoSolicitacaoDeEmprestimoDTO> mensagemDeRetorno = this.solicitacaoController.retornarHistorico(retornoDeHistorico);
-		return new ResponseEntity<MensagensDeRetorno<RetornoSolicitacaoDeEmprestimoDTO>>(mensagemDeRetorno, HttpStatus.OK);
+		return new ResponseEntity<RetornoSolicitacaoDeEmprestimoDTO>(retornoDeHistorico, HttpStatus.OK);
 	}
 }

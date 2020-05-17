@@ -27,10 +27,6 @@ public class MensagensDeRetorno<DTO> {
 		this.message = message;
 	}
 	
-	public MensagensDeRetorno(DTO dto) {
-		this.response = dto;
-	}
-	
 	public String getMessage() {
 		return this.message;
 	}
