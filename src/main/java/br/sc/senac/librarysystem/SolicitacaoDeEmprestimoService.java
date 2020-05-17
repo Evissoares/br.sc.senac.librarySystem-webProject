@@ -1,5 +1,7 @@
 package br.sc.senac.librarysystem;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +25,11 @@ public class SolicitacaoDeEmprestimoService {
     MensagensDeRetorno<Long> solicitar(@RequestBody SolicitacaoDeEmprestimosDTO solicitacao) {
 		return this.solicitacaoController.solicitarESalvar(solicitacao.getReaderId(), solicitacao.getBookId());
 	}
-	/*
+	
 	@GetMapping("/pegartodososhistoricos")
 	List<RetornoSolicitacaoDeEmprestimoDTO> pegarTodosOsHistoricos() {
 		return this.solicitacaoController.pegarTodosOsHistoricos();
-	}*/
+	}
 	
 	@GetMapping("/details/{emprestimoId}")
 	ResponseEntity<RetornoSolicitacaoDeEmprestimoDTO> pegarhistorico(@PathVariable Long emprestimoId) {

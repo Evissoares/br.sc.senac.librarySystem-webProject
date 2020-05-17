@@ -52,7 +52,7 @@ public class SolicitacaoDeEmprestimosController {
 		}
 		return RetornoSolicitacaoDeEmprestimoDTO.NULL_VALUE;
 	}
-	/*
+	
 	List<RetornoSolicitacaoDeEmprestimoDTO> pegarTodosOsHistoricos() {
 		List<RetornoSolicitacaoDeEmprestimoDTO> historicosSelecionados = new ArrayList<>();
 		Iterable<SolicitacaoDeEmprestimosEntity> entidades = solicitacaoDeEmprestimosRepository.findAll();
@@ -60,5 +60,5 @@ public class SolicitacaoDeEmprestimosController {
 			historicosSelecionados.add(toDTO(entidade));
 		}
 		return historicosSelecionados;
-	}*/
+	}
 }
