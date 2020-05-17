@@ -11,7 +11,7 @@ public class BookDTO {
 	private String releaseDate;
 	
 	BookDTO(Long bookId, String titleBook, String authorBook,String genreBook, String releaseDate){
-		this.bookId= bookId;
+		this.bookId = bookId;
 		this.titleBook = titleBook;
 		this.authorBook = authorBook;
 		this.genreBook = genreBook;
@@ -37,9 +37,4 @@ public class BookDTO {
 	public String getReleaseDate() {
 		return releaseDate;
 	}
-	
-//	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-//	public Date getDateOfBorrow() {
-//		return dateOfBorrow;
-//	}
 }
