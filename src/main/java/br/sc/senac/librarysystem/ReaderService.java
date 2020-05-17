@@ -29,7 +29,7 @@ public class ReaderService {
 	}
 	
 	@PostMapping("/insertreader")
-	Long insertReader(@RequestBody ReaderDTO reader) {
+	MensagensDeRetorno<Long> insertReader(@RequestBody ReaderDTO reader) {
 		return this.readerController.insertReaderIntoRepository(reader);
 	}
 	
@@ -53,7 +53,7 @@ public class ReaderService {
 		if(deletedReader.equals(ReaderDTO.NULL_VALUE)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		MensagensDeRetorno<ReaderDTO> mensagemDeRetorno = this.readerController.deleteReader(deletedReader);
+		MensagensDeRetorno<ReaderDTO> mensagemDeRetorno = this.readerController.leitorDeletado(deletedReader);
 		return new ResponseEntity<>(mensagemDeRetorno, HttpStatus.OK);
 	}
 	
@@ -63,7 +63,7 @@ public class ReaderService {
 		if(oldReader.equals(ReaderDTO.NULL_VALUE)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		MensagensDeRetorno<ReaderDTO> mensagemDeRetorno = this.readerController.updateReader(oldReader);
+		MensagensDeRetorno<ReaderDTO> mensagemDeRetorno = this.readerController.leitorAtualizado(oldReader);
 		return new ResponseEntity<>(mensagemDeRetorno, HttpStatus.OK);
 	}
 }
