@@ -39,7 +39,8 @@ public class BookController {
 		String authorBook = bookEntity.getAuthorBook();
 		String genreBook = bookEntity.getGenreBook();
 		String releaseDate = bookEntity.getReleaseDate();
-		return new BookDTO(bookId, titleBook, authorBook, genreBook, releaseDate);
+		Boolean isEmprestado = bookEntity.getStatusEmprestimo();
+		return new BookDTO(bookId, titleBook, authorBook, genreBook, releaseDate, isEmprestado);
 	}
 	
 	MensagensDeRetorno<Long> insertBookIntoRepository(BookDTO book) {

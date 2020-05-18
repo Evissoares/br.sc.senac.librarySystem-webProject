@@ -23,11 +23,14 @@ public class BookEntity implements Serializable {
 	
 	private String releaseDate;
 	
+	private Boolean isEmprestado;
+	
 	public BookEntity(String titleBook, String authorBook, String genreBook, String releaseDate) {
 		this.titleBook = titleBook;
 		this.authorBook = authorBook;
 		this.genreBook = genreBook;
 		this.releaseDate = releaseDate;
+		isEmprestado = false;
 	}
 	
 	protected BookEntity() {
@@ -76,5 +79,9 @@ public class BookEntity implements Serializable {
 	
 	public Long getBookId() {
 		return this.bookId;
+	}
+	
+	public Boolean getStatusEmprestimo() {
+		return this.isEmprestado;
 	}
 }
