@@ -36,6 +36,7 @@ public class SolicitacaoDeEmprestimosController {
 		Optional<BookEntity> selectedBook = this.bookController.getBookById(bookCode);	
 		if(selectedReader.isPresent()) {
 			if(selectedBook.isPresent()) {
+				selectedBook.get().setStatus(true);
 				SolicitacaoDeEmprestimosEntity novoRegistro = new SolicitacaoDeEmprestimosEntity(selectedReader.get(), selectedBook.get());
 				solicitacaoDeEmprestimosRepository.save(novoRegistro);
 				return new MensagensDeRetorno<Long>(novoRegistro.getEmprestimoId(), MensagensDeRetorno.HISTORICO_CRIADO);

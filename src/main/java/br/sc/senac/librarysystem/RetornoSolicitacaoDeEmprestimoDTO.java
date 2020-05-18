@@ -20,7 +20,7 @@ public class RetornoSolicitacaoDeEmprestimoDTO {
 		this.authorBook = authorBook;
 	}
 
-	public Long getLong() {
+	public Long getEmprestimoId() {
 		return this.emprestimoId;
 	}
 	
