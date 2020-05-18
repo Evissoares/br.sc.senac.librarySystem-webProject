@@ -25,7 +25,7 @@ public class BookController {
 		bookRepository.save(entidade);
 	}
 	
-	private static BookEntity toEntity(BookDTO bookDTO) {
+	private static BookEntity toEntity(EntradaBookDTO bookDTO) {
 		String titleBook = bookDTO.getTitleBook();
 		String authorBook = bookDTO.getAuthorBook();
 		String genreBook = bookDTO.getGenreBook();
@@ -33,28 +33,28 @@ public class BookController {
 		return new BookEntity(titleBook, authorBook, genreBook, releaseDate);
 	}
 	
-	private static BookDTO toDTO(BookEntity bookEntity) {
+	private static SaidaBookDTO toDTO(BookEntity bookEntity) {
 		Long bookId = bookEntity.getBookId();
 		String titleBook = bookEntity.getTitleBook();
 		String authorBook = bookEntity.getAuthorBook();
 		String genreBook = bookEntity.getGenreBook();
 		String releaseDate = bookEntity.getReleaseDate();
 		Boolean isEmprestado = bookEntity.getStatusEmprestimo();
-		return new BookDTO(bookId, titleBook, authorBook, genreBook, releaseDate, isEmprestado);
+		return new SaidaBookDTO(bookId, titleBook, authorBook, genreBook, releaseDate, isEmprestado);
 	}
 	
-	MensagensDeRetorno<Long> insertBookIntoRepository(BookDTO book) {
+	MensagensDeRetorno<Long> insertBookIntoRepository(EntradaBookDTO book) {
 		BookEntity bookEntity = BookController.toEntity(book);
 		bookRepository.save(bookEntity);
 	    return new MensagensDeRetorno<>(bookEntity.getBookId(), MensagensDeRetorno.LIVRO_CADASTRADO);
 	}
 	
-	BookDTO getBookFromRepository(Long bookCode) {
+	SaidaBookDTO getBookFromRepository(Long bookCode) {
 		Optional<BookEntity> bookEntity = getBookById(bookCode);
 		if (bookEntity.isPresent()) {
 			return BookController.toDTO(bookEntity.get());
 		}
-		return BookDTO.NUll_VALUE;
+		return SaidaBookDTO.NUll_VALUE;
 	}
 
 	Optional<BookEntity> getBookById(Long bookCode) {
@@ -62,8 +62,8 @@ public class BookController {
 		return bookEntity;
 	}
 	
-	List<BookDTO> getAllBooksFromRepository() {
-		List<BookDTO> selectedBooks = new ArrayList<>();
+	List<SaidaBookDTO> getAllBooksFromRepository() {
+		List<SaidaBookDTO> selectedBooks = new ArrayList<>();
 		Iterable<BookEntity> selectedEntities = bookRepository.findAll();
 		for (BookEntity bookEntity : selectedEntities) {
 			selectedBooks.add(BookController.toDTO(bookEntity));
@@ -71,20 +71,20 @@ public class BookController {
 		return selectedBooks;
 	}
 	
-	BookDTO removeBookFromRepository(Long bookCode) {
+	SaidaBookDTO removeBookFromRepository(Long bookCode) {
 		Optional<BookEntity> selectedBook = getBookById(bookCode);
 		if (selectedBook.isPresent()) {
-			BookDTO oldBook = toDTO(selectedBook.get());
+			SaidaBookDTO oldBook = toDTO(selectedBook.get());
 			bookRepository.delete(selectedBook.get());
 			return oldBook;
 		}
-		return BookDTO.NUll_VALUE;
+		return SaidaBookDTO.NUll_VALUE;
 	}
 	
-	BookDTO updateBookInRepository(BookDTO newBook, Long codeBook) {
+	SaidaBookDTO updateBookInRepository(EntradaBookDTO newBook, Long codeBook) {
 		Optional<BookEntity> selectedBook = getBookById(codeBook);
 		if (selectedBook.isPresent()) {
-			BookDTO oldBook = toDTO(selectedBook.get());
+			SaidaBookDTO oldBook = toDTO(selectedBook.get());
 			selectedBook.get().setTitleBook(newBook.getTitleBook());
 			selectedBook.get().setAuthorBook(newBook.getAuthorBook());
 			selectedBook.get().setGenreBook(newBook.getGenreBook());
@@ -92,14 +92,14 @@ public class BookController {
 			bookRepository.save(selectedBook.get());
 			return oldBook;
 		}
-		return BookDTO.NUll_VALUE;
+		return SaidaBookDTO.NUll_VALUE;
 	}
 	
-	MensagensDeRetorno<BookDTO> mensagemDeletado(BookDTO deletedBook) {
-		return new MensagensDeRetorno<BookDTO>(deletedBook, MensagensDeRetorno.LIVRO_DELETADO);
+	MensagensDeRetorno<SaidaBookDTO> mensagemDeletado(SaidaBookDTO deletedBook) {
+		return new MensagensDeRetorno<SaidaBookDTO>(deletedBook, MensagensDeRetorno.LIVRO_DELETADO);
 	}
 	
-	MensagensDeRetorno<BookDTO> mensagemAtualizado(BookDTO oldBook) {
-		return new MensagensDeRetorno<BookDTO>(oldBook, MensagensDeRetorno.LIVRO_ATUALIZADO);
+	MensagensDeRetorno<SaidaBookDTO> mensagemAtualizado(SaidaBookDTO oldBook) {
+		return new MensagensDeRetorno<SaidaBookDTO>(oldBook, MensagensDeRetorno.LIVRO_ATUALIZADO);
 	}
 }
