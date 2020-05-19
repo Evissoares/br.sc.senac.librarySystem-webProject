@@ -14,6 +14,7 @@ public class MensagensDeRetorno<DTO> {
 	
 	public static final String HISTORICO_NAO_ENCONTRADO = "Histórico não encontrado";
 	public static final String HISTORICO_CRIADO = "Empréstimo realizado";
+	public static final String LIVRO_INDISPONIVEL = "Livro já emprestado";
 	
 	private String message;
 	private DTO response;

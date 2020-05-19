@@ -81,7 +81,7 @@ public class BookEntity implements Serializable {
 		return this.bookId;
 	}
 	
-	public Boolean getStatusEmprestimo() {
+	public Boolean isEmprestado() {
 		return this.isEmprestado;
 	}
 	

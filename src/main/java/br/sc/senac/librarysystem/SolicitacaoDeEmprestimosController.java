@@ -35,11 +35,14 @@ public class SolicitacaoDeEmprestimosController {
 		Optional<ReaderEntity> selectedReader = this.readerController.getReaderById(readerId);
 		Optional<BookEntity> selectedBook = this.bookController.getBookById(bookCode);	
 		if(selectedReader.isPresent()) {
-			if(selectedBook.isPresent()) {
-				selectedBook.get().setStatus(true);
-				SolicitacaoDeEmprestimosEntity novoRegistro = new SolicitacaoDeEmprestimosEntity(selectedReader.get(), selectedBook.get());
-				solicitacaoDeEmprestimosRepository.save(novoRegistro);
-				return new MensagensDeRetorno<Long>(novoRegistro.getEmprestimoId(), MensagensDeRetorno.HISTORICO_CRIADO);
+			if (selectedBook.isPresent()) {
+				if (!selectedBook.get().isEmprestado()) {
+					selectedBook.get().setStatus(true);
+					SolicitacaoDeEmprestimosEntity novoRegistro = new SolicitacaoDeEmprestimosEntity(selectedReader.get(), selectedBook.get());
+					solicitacaoDeEmprestimosRepository.save(novoRegistro);
+					return new MensagensDeRetorno<Long>(novoRegistro.getEmprestimoId(),MensagensDeRetorno.HISTORICO_CRIADO);
+				}
+				return new MensagensDeRetorno<Long>(bookCode, MensagensDeRetorno.LIVRO_INDISPONIVEL);
 			}
 			return new MensagensDeRetorno<Long>(bookCode, MensagensDeRetorno.LIVRO_NAO_ENCONTRADO);
 		}

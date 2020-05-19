@@ -39,7 +39,7 @@ public class BookController {
 		String authorBook = bookEntity.getAuthorBook();
 		String genreBook = bookEntity.getGenreBook();
 		String releaseDate = bookEntity.getReleaseDate();
-		Boolean isEmprestado = bookEntity.getStatusEmprestimo();
+		Boolean isEmprestado = bookEntity.isEmprestado();
 		return new SaidaBookDTO(bookId, titleBook, authorBook, genreBook, releaseDate, isEmprestado);
 	}
 	
