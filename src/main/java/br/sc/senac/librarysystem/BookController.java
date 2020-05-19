@@ -14,6 +14,10 @@ public class BookController {
 		this.bookRepository = bookRepository;
 	}
 	
+	public void salvarEntidadeLivro(BookEntity book) {
+		bookRepository.save(book);
+	}
+	
 	void addDefault() {
 		BookEntity entidade = new BookEntity("Dragon Ball Z", "Akira Toryiama", "Ação", "Desconhecido");
 		bookRepository.save(entidade);

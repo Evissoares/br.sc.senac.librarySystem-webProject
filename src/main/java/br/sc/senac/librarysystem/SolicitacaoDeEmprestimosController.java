@@ -65,4 +65,17 @@ public class SolicitacaoDeEmprestimosController {
 		}
 		return historicosSelecionados;
 	}
+
+	public MensagensDeRetorno<Long> desfazerEmprestimo(Long bookCode){
+		Optional<BookEntity> livroParaDesvolver = this.bookController.getBookById(bookCode);
+		if(livroParaDesvolver.isPresent()) {
+			if(livroParaDesvolver.get().isEmprestado()) {
+				livroParaDesvolver.get().setStatus(false);
+				this.bookController.salvarEntidadeLivro(livroParaDesvolver.get());
+				return new MensagensDeRetorno<Long>(bookCode, MensagensDeRetorno.LIVRO_DEVOLVIDO);
+			}
+			return new MensagensDeRetorno<Long>(bookCode, MensagensDeRetorno.LIVRO_DISPONIVEL);
+		}
+		return new MensagensDeRetorno<Long>(bookCode, MensagensDeRetorno.LIVRO_NAO_ENCONTRADO);
+	}
 }
