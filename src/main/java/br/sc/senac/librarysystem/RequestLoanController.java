@@ -75,7 +75,7 @@ public class RequestLoanController {
 		if (livroParaDevolver.isPresent()) {
 			if (livroParaDevolver.get().getIsOnloan()) {
 				livroParaDevolver.get().setStatus(false);
-				this.bookController.saveBookEntity(livroParaDevolver.get());
+				this.bookController.salvarEntidadeLivro((livroParaDevolver.get()));
 				return new ReturnMessage<Long>(bookCode, ReturnMessage.LIVRO_DEVOLVIDO);
 			}
 			return new ReturnMessage<Long>(bookCode, ReturnMessage.LIVRO_DISPONIVEL);

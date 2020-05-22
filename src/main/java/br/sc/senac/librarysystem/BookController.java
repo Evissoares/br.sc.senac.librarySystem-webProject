@@ -14,11 +14,7 @@ public class BookController {
 		this.bookRepository = bookRepository;
 	}
 	
-<<<<<<< HEAD
-	public void saveBookEntity(BookEntity book) {
-=======
 	public void salvarEntidadeLivro(BookEntity book) {
->>>>>>> 3426bb01b4a93e1324c3de73cbfe8745af8bda1c
 		bookRepository.save(book);
 	}
 	
