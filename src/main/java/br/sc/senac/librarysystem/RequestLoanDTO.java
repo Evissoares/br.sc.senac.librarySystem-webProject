@@ -1,11 +1,11 @@
 package br.sc.senac.librarysystem;
 
-public class SolicitacaoDeEmprestimosDTO {
+public class RequestLoanDTO {
 
 	private Long bookId;
 	private Long readerId;
 	
-	public SolicitacaoDeEmprestimosDTO(Long bookId, Long readerId) {
+	public RequestLoanDTO(Long bookId, Long readerId) {
 		this.bookId = bookId;
 		this.readerId = readerId;
 	}

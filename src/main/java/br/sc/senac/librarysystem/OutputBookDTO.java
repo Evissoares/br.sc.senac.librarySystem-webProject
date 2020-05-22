@@ -1,23 +1,23 @@
 package br.sc.senac.librarysystem;
 
-public class SaidaBookDTO {
+public class OutputBookDTO {
 
-	public static final SaidaBookDTO NUll_VALUE = new SaidaBookDTO(Long.valueOf(0), "", "", "", "", false);
+	public static final OutputBookDTO NUll_VALUE = new OutputBookDTO(Long.valueOf(0), "", "", "", "", false);
 	
 	private Long bookId;
 	private String titleBook;
 	private String authorBook;
 	private String genreBook;
 	private String releaseDate;
-	private Boolean isEmprestado;
+	private Boolean lent;
 
-	SaidaBookDTO(Long bookId, String titleBook, String authorBook,String genreBook, String releaseDate, Boolean isEmprestado){
+	OutputBookDTO(Long bookId, String titleBook, String authorBook,String genreBook, String releaseDate, Boolean lent){
 		this.bookId = bookId;
 		this.titleBook = titleBook;
 		this.authorBook = authorBook;
 		this.genreBook = genreBook;
 		this.releaseDate = releaseDate;
-		this.isEmprestado = isEmprestado;
+		this.lent = lent;
 	}
 
 	public Long getBookId() {
@@ -40,7 +40,7 @@ public class SaidaBookDTO {
 		return releaseDate;
 	}
 
-	public Boolean getIsEmprestado() {
-		return isEmprestado;
+	public Boolean getIsOnLoan() {
+		return lent;
 	}
 }

@@ -39,10 +39,10 @@ private final ReaderRepository readerRepository;
 		return new ReaderDTO(readerId, readerName, readerAge);
 	}
 	
-	MensagensDeRetorno<Long> insertReaderIntoRepository(ReaderDTO reader) {
+	ReturnMessage<Long> insertReaderIntoRepository(ReaderDTO reader) {
 		ReaderEntity readerEntity = ReaderController.toEntity(reader);
 		readerRepository.save(readerEntity);
-		return new MensagensDeRetorno<Long>(readerEntity.getReaderId(), MensagensDeRetorno.LEITOR_CADASTRADO);
+		return new ReturnMessage<Long>(readerEntity.getReaderId(), ReturnMessage.LEITOR_CADASTRADO);
 	}
 	
 	ReaderDTO getReaderFromRepository(Long readerId) {
@@ -89,11 +89,11 @@ private final ReaderRepository readerRepository;
     	return ReaderDTO.NULL_VALUE;
     }
     
-    MensagensDeRetorno<ReaderDTO> leitorDeletado(ReaderDTO deletedReader) {
-    	return new MensagensDeRetorno<ReaderDTO>(deletedReader, MensagensDeRetorno.LEITOR_DELETADO);
+    ReturnMessage<ReaderDTO> deletedReader(ReaderDTO deletedReader) {
+    	return new ReturnMessage<ReaderDTO>(deletedReader, ReturnMessage.LEITOR_DELETADO);
     }
     
-    MensagensDeRetorno<ReaderDTO> leitorAtualizado(ReaderDTO oldReader) {
-    	return new MensagensDeRetorno<ReaderDTO>(oldReader, MensagensDeRetorno.LEITOR_ATUALIZADO);
+    ReturnMessage<ReaderDTO> leitorAtualizado(ReaderDTO oldReader) {
+    	return new ReturnMessage<ReaderDTO>(oldReader, ReturnMessage.LEITOR_ATUALIZADO);
     }
 }

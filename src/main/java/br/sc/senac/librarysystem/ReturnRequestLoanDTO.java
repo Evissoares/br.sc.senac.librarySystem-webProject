@@ -1,18 +1,18 @@
 package br.sc.senac.librarysystem;
 
-public class RetornoSolicitacaoDeEmprestimoDTO {
+public class ReturnRequestLoanDTO {
 	
-	public static RetornoSolicitacaoDeEmprestimoDTO NULL_VALUE = new RetornoSolicitacaoDeEmprestimoDTO(Long.valueOf(0), Long.valueOf(0), "", Long.valueOf(0), "", "");
+	public static ReturnRequestLoanDTO NULL_VALUE = new ReturnRequestLoanDTO(Long.valueOf(0), Long.valueOf(0), "", Long.valueOf(0), "", "");
 	
-	private Long emprestimoId;
+	private Long loanId;
 	private Long readerId;
 	private String readerName;
 	private Long bookId;
 	private String titleBook;
 	private String authorBook;
 	
-	public RetornoSolicitacaoDeEmprestimoDTO(Long emprestimoId, Long readerId, String readerName, Long bookId, String titleBook, String authorBook) {
-		this.emprestimoId = emprestimoId;
+	public ReturnRequestLoanDTO(Long emprestimoId, Long readerId, String readerName, Long bookId, String titleBook, String authorBook) {
+		this.loanId = emprestimoId;
 		this.readerId = readerId;
 		this.readerName = readerName;
 		this.bookId = bookId;
@@ -20,8 +20,8 @@ public class RetornoSolicitacaoDeEmprestimoDTO {
 		this.authorBook = authorBook;
 	}
 
-	public Long getEmprestimoId() {
-		return this.emprestimoId;
+	public Long getLoanId() {
+		return this.loanId;
 	}
 	
 	public Long getReaderId() {

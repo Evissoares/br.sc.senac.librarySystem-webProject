@@ -23,13 +23,13 @@ public class ReaderService {
 		this.readerController = readerController; 
 	}
 	
-	@PostMapping("/salvarpadrao")
-	void criaEntidadespadrao() {
+	@PostMapping("/adddefaultreader")
+	void addDefaultReader() {
 		this.readerController.addDefault();
 	}
 	
 	@PostMapping("/insertreader")
-	MensagensDeRetorno<Long> insertReader(@RequestBody ReaderDTO reader) {
+	ReturnMessage<Long> insertReader(@RequestBody ReaderDTO reader) {
 		return this.readerController.insertReaderIntoRepository(reader);
 	}
 	
@@ -48,22 +48,22 @@ public class ReaderService {
 	}
 	
 	@DeleteMapping("/deletereader/{readerId}")
-	ResponseEntity<MensagensDeRetorno<ReaderDTO>> deleteReader(@PathVariable Long readerId) {
+	ResponseEntity<ReturnMessage<ReaderDTO>> deleteReader(@PathVariable Long readerId) {
 		ReaderDTO deletedReader = this.readerController.removeReaderFromRepository(readerId);
 		if(deletedReader.equals(ReaderDTO.NULL_VALUE)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		MensagensDeRetorno<ReaderDTO> mensagemDeRetorno = this.readerController.leitorDeletado(deletedReader);
+		ReturnMessage<ReaderDTO> mensagemDeRetorno = this.readerController.deletedReader(deletedReader);
 		return new ResponseEntity<>(mensagemDeRetorno, HttpStatus.OK);
 	}
 	
 	@PutMapping("/updatereader/{readerId}")
-	ResponseEntity<MensagensDeRetorno<ReaderDTO>> updateReader(@RequestBody ReaderDTO newReader, @PathVariable Long readerId) {
+	ResponseEntity<ReturnMessage<ReaderDTO>> updateReader(@RequestBody ReaderDTO newReader, @PathVariable Long readerId) {
 		ReaderDTO oldReader = this.readerController.updateReaderIntoRepository(newReader, readerId);
 		if(oldReader.equals(ReaderDTO.NULL_VALUE)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		MensagensDeRetorno<ReaderDTO> mensagemDeRetorno = this.readerController.leitorAtualizado(oldReader);
+		ReturnMessage<ReaderDTO> mensagemDeRetorno = this.readerController.leitorAtualizado(oldReader);
 		return new ResponseEntity<>(mensagemDeRetorno, HttpStatus.OK);
 	}
 }

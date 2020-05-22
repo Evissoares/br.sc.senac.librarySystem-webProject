@@ -23,47 +23,47 @@ public class BookService {
 		this.bookController = bookController;
 	}
 	
-	@PostMapping("/adddefault")
-	void entidadesPadrao() {
+	@PostMapping("/adddefaultbook")
+	void addDefaultBook() {
 		this.bookController.addDefault();
 	}
 	
 	@PostMapping("/insertbook")
-	MensagensDeRetorno<Long> insertBook(@RequestBody EntradaBookDTO book) {
+	ReturnMessage<Long> insertBook(@RequestBody InputBookDTO book) {
 		return this.bookController.insertBookIntoRepository(book);
 	}
 	
 	@GetMapping("/showbook/{bookCode}")
-	ResponseEntity<SaidaBookDTO> showBook(@PathVariable Long bookCode) {
-		SaidaBookDTO selectedBook = this.bookController.getBookFromRepository(bookCode);
-		if(selectedBook.equals(SaidaBookDTO.NUll_VALUE)) {
+	ResponseEntity<OutputBookDTO> showBook(@PathVariable Long bookCode) {
+		OutputBookDTO selectedBook = this.bookController.getBookFromRepository(bookCode);
+		if(selectedBook.equals(OutputBookDTO.NUll_VALUE)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<SaidaBookDTO>(selectedBook, HttpStatus.OK);
+		return new ResponseEntity<OutputBookDTO>(selectedBook, HttpStatus.OK);
 	}
 	
 	@GetMapping("/showallbooks")
-	List<SaidaBookDTO> showAllBooks() {
+	List<OutputBookDTO> showAllBooks() {
 		return this.bookController.getAllBooksFromRepository();
 	}
 	
 	@DeleteMapping("/deletebook/{codeBook}")
-	ResponseEntity<MensagensDeRetorno<SaidaBookDTO>> deleteBook(@PathVariable Long codeBook) {
-		SaidaBookDTO deletedBook = this.bookController.removeBookFromRepository(codeBook);
-		if(deletedBook.equals(SaidaBookDTO.NUll_VALUE)) {
+	ResponseEntity<ReturnMessage<OutputBookDTO>> deleteBook(@PathVariable Long codeBook) {
+		OutputBookDTO deletedBook = this.bookController.removeBookFromRepository(codeBook);
+		if(deletedBook.equals(OutputBookDTO.NUll_VALUE)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		MensagensDeRetorno<SaidaBookDTO> mensagemDeRetorno = this.bookController.mensagemDeletado(deletedBook);
+		ReturnMessage<OutputBookDTO> mensagemDeRetorno = this.bookController.mensagemDeletado(deletedBook);
 		return new ResponseEntity<>(mensagemDeRetorno, HttpStatus.OK);
 	}
 	
 	@PutMapping("/updatebook/{codeBook}")
-	ResponseEntity<MensagensDeRetorno<SaidaBookDTO>> updateBook(@RequestBody EntradaBookDTO updateBook, @PathVariable Long codeBook) {
-		SaidaBookDTO oldBook = this.bookController.updateBookInRepository(updateBook, codeBook);
-		if(oldBook.equals(SaidaBookDTO.NUll_VALUE)) {
+	ResponseEntity<ReturnMessage<OutputBookDTO>> updateBook(@RequestBody InputBookDTO updateBook, @PathVariable Long codeBook) {
+		OutputBookDTO oldBook = this.bookController.updateBookInRepository(updateBook, codeBook);
+		if(oldBook.equals(OutputBookDTO.NUll_VALUE)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		MensagensDeRetorno<SaidaBookDTO> mensagemDeRetorno = this.bookController.mensagemAtualizado(oldBook);
+		ReturnMessage<OutputBookDTO> mensagemDeRetorno = this.bookController.mensagemAtualizado(oldBook);
 		return new ResponseEntity<>(mensagemDeRetorno, HttpStatus.OK);
 	}
 }
